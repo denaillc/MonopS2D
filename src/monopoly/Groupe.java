@@ -10,5 +10,5 @@ package monopoly;
  * @author albertar
  */
 public class Groupe {
-    
+    private CouleurPropriete couleur;
 }
