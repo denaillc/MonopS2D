@@ -9,6 +9,14 @@ package monopoly;
  *
  * @author albertar
  */
-public class CouleurPropriete {
-    
+public enum CouleurPropriete {
+    BleuFonce,
+    Orange,
+    Gris,
+    Rouge,
+    Jaune,
+    Vert,
+    Violet,
+    Mauve,
+    BleuCiel,
 }

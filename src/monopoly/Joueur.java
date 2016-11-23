@@ -60,5 +60,8 @@ public class Joueur {
         gares.add(g);
     }
     
+    public int getNbGares(){
+        return gares.size();
+    }
     
 }
