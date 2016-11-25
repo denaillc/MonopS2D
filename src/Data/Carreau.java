@@ -3,20 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monopoly;
+package Data;
 
 /**
  *
  * @author albertar
  */
-public enum CouleurPropriete {
-    BleuFonce,
-    Orange,
-    Gris,
-    Rouge,
-    Jaune,
-    Vert,
-    Violet,
-    Mauve,
-    BleuCiel,
+public class Carreau {
+    
 }

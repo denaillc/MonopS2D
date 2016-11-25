@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monopoly;
+package Data;
+
+import UI.CouleurPropriete;
 
 /**
  *
  * @author albertar
  */
-public class Carreau {
-    
+public class Groupe {
+    private CouleurPropriete couleur;
 }

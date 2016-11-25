@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monopoly;
+package Data;
 
 /**
  *
  * @author albertar
  */
-public class Controleur {
+public class Gare {
     
 }

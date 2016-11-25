@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package monopoly;
+package Controleur;
 
 /**
  *
  * @author albertar
  */
-public class Groupe {
-    private CouleurPropriete couleur;
+public class Controleur {
+    
 }
