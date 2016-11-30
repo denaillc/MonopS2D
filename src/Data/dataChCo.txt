@@ -1,0 +1,32 @@
+CH,Vous êtes libéré de prison.\n Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée. ,libPrison,0
+CH,Reculez de trois cases.,reculerDeN,3
+CH,Vous êtes imposés pour les réparations de voirie à raison de : 40 € par maison et 115€  par hôtel.,payerCashHotels,-40
+CH,Amende pour excès de vitesse : 15€.,modifyCash,-15
+CH,Faites des réparations dans toutes vos maisons : versez pour chaque maison  25€ et pour chaque hôtel 100€.,payerCashHotels,-25
+CH,Amende pour ivresse : 20€.,modifyCash,-20
+CH,Avancez jusqu'à la case Départ.,avancerJusqua,0
+CH,Allez en prison.\n Avancez tout droit en prison.\n Ne passez pas par la case Départ.\n Ne recevez pas 200€.,allerPrison,0
+CH,Rendez-vous à l'Avenue Henri Martin.\n Si vous passez par la case Départ recevez 200€.,avancerJusqua,24
+CH,Allez à la gare de Lyon.\n Si vous passez par la case Départ recevez 200€.,avancerJusqua,15
+CH,Payez pour frais de scolarité : 150€.,modifyCash,-150
+CH,Vous avez gagné le prix de mots croisés.\n Recevez 100€.,modifyCash,100
+CH,La Banque vous verse un dividende de 50€.,modifyCash,50
+CH,Rendez-vous à la Rue de la Paix.,avancerJusquaScaseDep,38
+CH,Votre immeuble et votre prêt rapportent. Vous devez toucher 150€.,modifyCash,150
+CH,Accédez au Boulevard de la Villette.\n Si vous passez par la case Départ recevez 200€.,avancerJusqua,11
+CO,Vous êtes libéré de prison.\n Cette carte peut être conservée jusqu'à ce qu'elle soit utilisée.,libPrison,0
+CO,Payez une amende de 10€.,modifyCash,-10
+CO,C'est votre anniversaire.\n Chaque joueur doit vous donner 10€.,anniversaire,10
+CO,Erreur de la banque en votre faveur. Recevez 200€.,modifyCash,200
+CO,Retournez à Belleville 9.,avancerJusquaScaseDep,1
+CO,Payez la note du médecin : 50€.,modifyCash,-50
+CO,Les contributions vous remboursent la somme de 20€.,modifyCash,20
+CO,Payez à l'hôpital 100€.,modifyCash,-100
+CO,Vous héritez : 100€.,modifyCash,100
+CO,Allez en prison.\n Avancez tout droit en prison.\n Ne passez pas par la case Départ.\n Ne recevez pas 200€.,allerPrison,0
+CO,Payez votre Police d'Assurance : 50€.,modifyCash,-50
+CO,La vente de votre stock vous rapporte : 50€.,modifyCash,50
+CO,Avancez jusqu'à la case Départ.,avancerJusqua,0
+CO,Recevez votre intérêt sur l'emprunt à 7% : 25€.,modifyCash,25
+CO,Recevez votre revenu annuel : 100€.,modifyCash,100
+CO,Vous avez gagné le deuxième prix de beauté : recevez 10€.,modifyCash,10
