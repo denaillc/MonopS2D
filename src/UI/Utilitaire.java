@@ -16,4 +16,6 @@ public class Utilitaire {
     public static int De3() {
         return RANDOM.nextInt(6)+1;
     }
+    
+    
 }

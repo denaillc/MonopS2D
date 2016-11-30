@@ -18,25 +18,19 @@ public class Controleur {
 
     private Carreau carreaux;
     private Collection<Joueur> joueurs;
+    private HashMap<String,String> plateau = new HashMap<>();
 
     public Controleur() {
         this.CreerPlateau("src//Data//data.txt");
     }
 
-    /**
-     *
-     * @param j
-     * @param nb
-     */
+    
     private Carreau avancer(Joueur j, int nb) {
         // TODO - implement Controleur.avancer
         throw new UnsupportedOperationException();
     }
 
-    /**
-     *
-     * @param type
-     */
+    
     public void miseAJour(int type) {
         // TODO - implement Controleur.miseAJour
         throw new UnsupportedOperationException();
@@ -47,16 +41,48 @@ public class Controleur {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     *
-     * @param numC
-     * @param valDes
-     */
     public int calculPosition(int numC, int valDes) {
         // TODO - implement Controleur.calculPosition
         throw new UnsupportedOperationException();
     }
 
+    public Carreau getCarreaux() {
+        return carreaux;
+    }
+
+    public void setCarreaux(Carreau carreaux) {
+        this.carreaux = carreaux;
+    }
+
+    public Collection<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(Collection<Joueur> joueurs) {
+        this.joueurs = joueurs;
+    }
+
+    public HashMap<String, String> getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(HashMap<String, String> plateau) {
+        this.plateau = plateau;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void CreerPlateau(String dataFilename) {
         buildGamePlateau(dataFilename);
     }
@@ -79,6 +105,7 @@ public class Controleur {
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
+                this.getPlateau().put(data.get(i)[1], data.get(i)[2]); //Ajoute les cases a la collections plateau
             }
 
         } catch (FileNotFoundException e) {
