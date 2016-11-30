@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package Controleur;
 import Controleur.*;
+import Modele.*;
+import UI.*;
+
 
 /**
  *
@@ -17,6 +20,9 @@ public class Monopoly {
      */
     public static void main(String[] args) {
        Controleur controleur = new Controleur();
+       for (int i = 0; i< Ihm.nbJoueur();i++){
+           
+       }
     }
     
 }

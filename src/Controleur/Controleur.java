@@ -72,15 +72,7 @@ public class Controleur {
 
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     public void CreerPlateau(String dataFilename) {

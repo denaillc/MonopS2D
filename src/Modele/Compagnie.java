@@ -9,6 +9,6 @@ package Modele;
  *
  * @author albertar
  */
-public class Gare {
+public class Compagnie {
     
 }
