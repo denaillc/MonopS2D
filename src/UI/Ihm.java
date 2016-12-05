@@ -33,8 +33,9 @@ public class Ihm {
     
     public static String nomJoueur(){
         Scanner sc = new Scanner(System.in);
-            System.out.println("Entrez le nom du joueur");
+            System.out.print("Entrez le nom du joueur : ");
             String nom = sc.nextLine();
+            System.out.println("\n");
             return(nom);
     }
 }
