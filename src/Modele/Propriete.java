@@ -22,10 +22,10 @@ public class Propriete extends Carreau {
         prixAchat = prix;
         proprietaire = null;
     }
+    
+    
 
-	private int calculLoyer() {
-            return 0;
-	}
+	
 
 	public Joueur getProprietaire() {
 		return this.proprietaire;
@@ -34,13 +34,12 @@ public class Propriete extends Carreau {
 	public void acheterPropriete(Joueur j) {
 		j.setCash(j.getCash()-getPrixAchat());
                 j.addPropriete(this);
+                setProprietaire(j);
 	}
         
         
 	public void payerLoyer(Joueur jAch, Joueur JRec) {
-                
-                
-            
+  
 	}
 
 	public int getPrix() {
@@ -51,9 +50,6 @@ public class Propriete extends Carreau {
 		this.proprietaire = jCourant;
 	}
 
-	public int calculLoyer(int nb) {
-		return 0;
-	}
 
     public int getPrixAchat() {
         return prixAchat;

@@ -27,70 +27,9 @@ public class Controleur {
         creerJoueurs();
     }
 
-    
-    private Carreau avancer(Joueur j, int nb) {
-        // TODO - implement Controleur.avancer
-        throw new UnsupportedOperationException();
-    }
-
-    
-    public void miseAJour(int type) {
-        // TODO - implement Controleur.miseAJour
-        throw new UnsupportedOperationException();
-    }
-
-    public Joueur getJoueurCourant() {
-        // TODO - implement Controleur.getJoueurCourant
-        throw new UnsupportedOperationException();
-    }
-
-    public int calculPosition(int numC, int valDes) {
-        // TODO - implement Controleur.calculPosition
-        throw new UnsupportedOperationException();
-    }
-
-    public Carreau getCarreaux() {
-        return carreaux;
-    }
-
-    public void setCarreaux(Carreau carreaux) {
-        this.carreaux = carreaux;
-    }
-
-    public ArrayList<Joueur> getJoueurs() {
-        return joueurs;
-    }
-
-    public void addJoueurs(Joueur e) {
-        this.joueurs.add(e);
-    }
-
-    public HashMap<String, String> getPlateau() {
-        return plateau;
-    }
-
-    public void setPlateau(HashMap<String, String> plateau) {
-        this.plateau = plateau;
-    }
-
-    public void creerJoueurs(){ 
-       int nb = vue.nbJoueur();
-        for(int i = 0; i<nb; i++){
-            addJoueurs(new Joueur(vue.nomJoueur()));
-        }
-        for(Joueur j : joueurs){
-            System.out.println(j.getNom());
-        }
-    }
-    
-    
-
-    
-    
-    
-    
-    
-    
+    ////////////////////////////////////////////////////////////////
+    //////CREATION//////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
     
     //Creation plateau
     public void CreerPlateau(String dataFilename) {
@@ -147,5 +86,104 @@ public class Controleur {
         reader.close();
 
         return data;
+    }
+    
+    
+    
+    //Creation de joueurs
+    public void creerJoueurs(){ 
+       int nb = vue.nbJoueur();
+        for(int i = 0; i<nb; i++){
+            addJoueurs(new Joueur(vue.nomJoueur()));
+        }
+        for(Joueur j : joueurs){
+            System.out.println(j.getNom());
+        }
+    }
+    
+    
+    ////////////////////////////////////////////////////////////////////////
+    //////////////////////////ACTION////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    private Carreau avancer(Joueur j, int nb) {
+        // TODO - implement Controleur.avancer
+        throw new UnsupportedOperationException();
+    }
+
+    
+    public void miseAJour(int type) {
+        // TODO - implement Controleur.miseAJour
+        throw new UnsupportedOperationException();
+    }
+
+    public Joueur getJoueurCourant() {
+        // TODO - implement Controleur.getJoueurCourant
+        throw new UnsupportedOperationException();
+    }
+
+    public int calculPosition(int numC, int valDes) {
+        // TODO - implement Controleur.calculPosition
+        throw new UnsupportedOperationException();
+    }
+
+    public void actionPropriete(Joueur j, int resultde, Propriete p){
+     
+	if(p.getProprietaire() != null){ //bien possédé
+           
+	    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
+		int loy = p.calculLoyer(resultde);
+                j.payerLoyer(loy); //j paye le loyer
+		p.getProprietaire().recevoirLoyer(loy);
+               }
+	}
+	else{
+	    if(assezArgent(j,p)){//Proposition d'achat si assez d'argent
+             }
+	    else{
+	 }
+	}
+    }
+    
+    
+    
+    public boolean assezArgent(Joueur j, Propriete p){
+        return((j.getCash() - p.getPrixAchat()) <= 0);
+    }
+    
+    
+    
+    
+    
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////GETTEUR&SETTEUR////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    
+    
+    
+    public Carreau getCarreaux() {
+        return carreaux;
+    }
+
+    public void setCarreaux(Carreau carreaux) {
+        this.carreaux = carreaux;
+    }
+
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void addJoueurs(Joueur e) {
+        this.joueurs.add(e);
+    }
+
+    public HashMap<String, String> getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(HashMap<String, String> plateau) {
+        this.plateau = plateau;
     }
 }
