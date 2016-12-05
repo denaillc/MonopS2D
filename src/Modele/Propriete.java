@@ -13,11 +13,13 @@ package Modele;
 public class Propriete extends Carreau {
 
 	private Joueur proprietaire;
+        private int prixAchat;
 	private int prixLoyer;
 
-    public Propriete(int numero, String nom) {
+    public Propriete(int numero, String nom, int loyer, int prix) {
         super(numero, nom);
-        prixLoyer = 0;
+        prixLoyer = loyer;
+        prixAchat = prix;
         proprietaire = null;
     }
 
@@ -30,20 +32,16 @@ public class Propriete extends Carreau {
 	}
 
 	public void acheterPropriete(Joueur j) {
-		
+		//TODO
 	}
         
         
 	public void payerLoyer(Joueur jAch, Joueur JRec) {
-		
-	}
-
-	public int calculPosition(int numC, int valDes) {
-            return 0;
+		//TODO
 	}
 
 	public int getPrix() {
-		return 0;
+		return prixAchat;
 	}
 
 	public void setProprietaire(Joueur jCourant) {
@@ -53,5 +51,7 @@ public class Propriete extends Carreau {
 	public int calculLoyer(int nb) {
 		return 0;
 	}
+        
+        
 
 }
