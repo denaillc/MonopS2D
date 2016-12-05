@@ -5,8 +5,9 @@
  */
 package Controleur;
 
-import Modele.Carreau;
-import Modele.Joueur;
+
+import Modele.*;
+import UI.*;
 import java.io.*;
 import java.util.*;
 
@@ -16,12 +17,14 @@ import java.util.*;
  */
 public class Controleur {
 
+    private Ihm vue;
     private Carreau carreaux;
-    private Collection<Joueur> joueurs;
+    private ArrayList<Joueur> joueurs = new ArrayList<>();
     private HashMap<String,String> plateau = new HashMap<>();
 
     public Controleur() {
         this.CreerPlateau("src//Data//data.txt");
+        creerJoueurs();
     }
 
     
@@ -54,12 +57,12 @@ public class Controleur {
         this.carreaux = carreaux;
     }
 
-    public Collection<Joueur> getJoueurs() {
+    public ArrayList<Joueur> getJoueurs() {
         return joueurs;
     }
 
-    public void setJoueurs(Collection<Joueur> joueurs) {
-        this.joueurs = joueurs;
+    public void addJoueurs(Joueur e) {
+        this.joueurs.add(e);
     }
 
     public HashMap<String, String> getPlateau() {
@@ -70,11 +73,25 @@ public class Controleur {
         this.plateau = plateau;
     }
 
-    
+    public void creerJoueurs(){
+       int nb = vue.nbJoueur();
+        for(int i = 0; i<nb; i++){
+            addJoueurs(new Joueur(vue.nomJoueur()));
+        }
+        for(Joueur j : joueurs){
+            System.out.println(j.getNom());
+        }
+    }
     
 
     
     
+    
+    
+    
+    
+    
+    //Creation plateau
     public void CreerPlateau(String dataFilename) {
         buildGamePlateau(dataFilename);
     }

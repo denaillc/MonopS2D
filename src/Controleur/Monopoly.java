@@ -19,10 +19,10 @@ public class Monopoly {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        
        Controleur controleur = new Controleur();
-       for (int i = 0; i< Ihm.nbJoueur();i++){
-           
-       }
+       
     }
     
 }

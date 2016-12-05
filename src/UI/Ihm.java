@@ -11,10 +11,12 @@ import java.util.*;
  *
  * @author albertar
  */
-public class Ihm {
+public class Ihm {    
+     
+    
     public static int nbJoueur(){
         int c = 0;
-        System.out.print("Inscrire le nombre de joueur : ");
+        System.out.print("Choisir le nombre de joueurs : ");
         while (c > 6 || c < 2) {
             try {
                 Scanner sc = new Scanner(System.in);
@@ -27,5 +29,12 @@ public class Ihm {
             }
         }
         return(c);
+    }
+    
+    public static String nomJoueur(){
+        Scanner sc = new Scanner(System.in);
+            System.out.println("Entrez le nom du joueur");
+            String nom = sc.nextLine();
+            return(nom);
     }
 }
