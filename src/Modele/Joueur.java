@@ -17,9 +17,11 @@ public class Joueur {
     private int cash;
     private Carreau positionCourante;
     private ArrayList<Gare> gares;
+    private ArrayList<Propriete> propriete;
 
     public Joueur(String nom) {
         this.gares = new ArrayList();
+        this.propriete = new ArrayList();
         this.nom = nom;
         this.cash = 1500;
     }
@@ -36,7 +38,7 @@ public class Joueur {
         return cash;
     }
 
-    private void setCash(int cash) {
+    public void setCash(int cash) {
         this.cash = cash;
     }
     
@@ -63,5 +65,24 @@ public class Joueur {
     public int getNbGares(){
         return gares.size();
     }
+
+    public ArrayList<Gare> getGares() {
+        return gares;
+    }
+
+    public void setGares(ArrayList<Gare> gares) {
+        this.gares = gares;
+    }
+
+    public ArrayList<Propriete> getPropriete() {
+        return propriete;
+    }
+
+    public void setPropriete(ArrayList<Propriete> propriete) {
+        this.propriete = propriete;
+    }
     
+    public void addPropriete(Propriete p){
+        getPropriete().add(p);
+    }
 }

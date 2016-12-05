@@ -73,7 +73,7 @@ public class Controleur {
         this.plateau = plateau;
     }
 
-    public void creerJoueurs(){
+    public void creerJoueurs(){ 
        int nb = vue.nbJoueur();
         for(int i = 0; i<nb; i++){
             addJoueurs(new Joueur(vue.nomJoueur()));
@@ -82,6 +82,7 @@ public class Controleur {
             System.out.println(j.getNom());
         }
     }
+    
     
 
     
