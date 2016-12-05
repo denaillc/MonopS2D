@@ -9,6 +9,10 @@ package Modele;
  *
  * @author albertar
  */
-public class Gare {
+public class Gare extends Propriete {
+    
+    public Gare(int numero, String nom, int loyer, int prix) {
+        super(numero, nom, loyer, prix);
+    }
     
 }

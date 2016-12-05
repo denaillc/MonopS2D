@@ -105,12 +105,23 @@ public class Controleur {
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    Propriete p = new Propriete(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]));
+                    //AJOUTER p AU PLATEAU;
+                    
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    //Gare g = new Gare();
+                    //AJOUTER g AU PLATEAU;
+                    
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    //Compagnie c = new Compagnie();
+                    //AJOUTER c AU PLATEAU;
+                    
                 } else if (caseType.compareTo("AU") == 0) {
                     System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    //Carreau c = new Carreau();
+                    //AJOUTER c AU PLATEAU;
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
                 }
