@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import UI.CouleurPropriete;
 import java.util.ArrayList;
 
 /**
@@ -96,7 +97,13 @@ public class Joueur {
         this.compagnies = compagnies;
     }
     
-    public int getNbProprieteCouleur() {
+    public int getNbProprieteCouleur(CouleurPropriete couleur) {
         int n = 0;
-        for i
+        for (Propriete_A_Construire c : constructibles){
+            if (c.getCouleur() == couleur) {
+                n++;
+            }
+        }
+        return n;
     }
+}

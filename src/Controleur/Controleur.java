@@ -140,7 +140,13 @@ public class Controleur {
 	if(p.getProprietaire() != null){ //bien possédé
            
 	    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
-		int loy = p.calculLoyer(resultde);
+                
+                
+
+                
+                
+                
+		int loy = p.calculLoyer(resultde, groupes);
                 j.payerLoyer(loy); //j paye le loyer
 		p.getProprietaire().recevoirLoyer(loy);
                }

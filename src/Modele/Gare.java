@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import java.util.HashSet;
+
 /**
  *
  * @author albertar
@@ -16,8 +18,8 @@ public class Gare extends Propriete {
     }
 
     @Override
-    public int calculLoyer(int valDes, int nbGares) {
-        return this.getPrixLoyer() * nbGares;
+    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+        return this.getPrixLoyer() * this.getProprietaire().getGares().size();
     }
     
 }

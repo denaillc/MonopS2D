@@ -5,7 +5,9 @@
  */
 package Modele;
 
-import Diagramme_de_classes_Monopoly.CouleurPropriete;
+import UI.CouleurPropriete;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  *
@@ -21,9 +23,23 @@ public class Propriete_A_Construire extends Propriete {
     }
 
     @Override
-    public int calculLoyer(int valDes, int nb) {
-        //this.getProprietaire().getPropriete()
-        if this.getProprietaire().getNbProprieteCouleur(couleur) == 
+    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+        
+        int nb = 0;
+        
+        Iterator<Groupe> it = groupes.iterator();
+        while (it.hasNext()) {
+            Groupe g = it.next();
+            if(this.getCouleur() == g.getCouleur()) {
+                nb = g.getProprietes().size();
+            }
+        }
+        
+        
+        if (this.getProprietaire().getNbProprieteCouleur(couleur) == nb) {
+            return this.getPrixLoyer() * 2;
+        }
+        else return this.getPrixLoyer();
     }
 
     public CouleurPropriete getCouleur() {
