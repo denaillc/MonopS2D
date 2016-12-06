@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author albertar
  */
-public class Ihm {    
+public class Ihm extends Observable{    
      
     
     public static int nbJoueur(){

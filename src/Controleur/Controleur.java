@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author albertar
  */
-public class Controleur {
+public class Controleur implements Observer {
 
     private Ihm vue;
     private Carreau carreaux;
@@ -26,6 +26,18 @@ public class Controleur {
         this.CreerPlateau("src//Data//data.txt");
         creerJoueurs();
     }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        
+    }
+    
+    
+    
+    
+    
+    
+    
 
     ////////////////////////////////////////////////////////////////
     //////CREATION//////////////////////////////////////////////////
@@ -94,7 +106,11 @@ public class Controleur {
     public void creerJoueurs(){ 
        int nb = vue.nbJoueur();
         for(int i = 0; i<nb; i++){
-            addJoueurs(new Joueur(vue.nomJoueur()));
+            addJoueurs(new Joueur(vue.nomJoueur()));            /*Changer la creation de joueur en prenant en compte l'observateur (notifyObserver()) 
+                                                                et ainsi supprimer la boucle ajouter toutes les verification dans le controleur et 
+                                                                juste demander a l'ihm  les valeurs (nom des joueurs) on créera une classe enum avec
+                                                                les validations et ce sera le client qui rentrera le nombre de joueur qu'il veut 
+                                                                sans demande de nombre au préalable.*/  
         }
         for(Joueur j : joueurs){
             System.out.println(j.getNom());
@@ -186,4 +202,6 @@ public class Controleur {
     public void setPlateau(HashMap<String, String> plateau) {
         this.plateau = plateau;
     }
+
+    
 }
