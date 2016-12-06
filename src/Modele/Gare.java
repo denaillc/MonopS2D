@@ -14,5 +14,10 @@ public class Gare extends Propriete {
     public Gare(int numero, String nom, int loyer, int prix) {
         super(numero, nom, loyer, prix);
     }
+
+    @Override
+    public int calculLoyer(int valDes, int nbGares) {
+        return this.getPrixLoyer() * nbGares;
+    }
     
 }

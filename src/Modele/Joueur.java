@@ -16,6 +16,8 @@ public class Joueur {
     private String nom;
     private int cash;
     private Carreau positionCourante;
+    private ArrayList<Propriete_A_Construire> constructibles;
+    private ArrayList<Compagnie> compagnies;
     private ArrayList<Gare> gares;
     private ArrayList<Propriete> propriete;
 
@@ -49,7 +51,7 @@ public class Joueur {
     public void recevoirLoyer(int loyer){
         setCash(getCash()+loyer);
     }
-
+    
     public Carreau getPositionCourante() {
         return positionCourante;
     }
@@ -74,7 +76,7 @@ public class Joueur {
         this.gares = gares;
     }
 
-    public ArrayList<Propriete> getPropriete() {
+    public ArrayList<Propriete> getProprietes() {
         return propriete;
     }
 
@@ -83,6 +85,18 @@ public class Joueur {
     }
     
     public void addPropriete(Propriete p){
-        getPropriete().add(p);
+        getProprietes().add(p);
     }
-}
+
+    public ArrayList<Compagnie> getCompagnies() {
+        return compagnies;
+    }
+
+    public void setCompagnies(ArrayList<Compagnie> compagnies) {
+        this.compagnies = compagnies;
+    }
+    
+    public int getNbProprieteCouleur() {
+        int n = 0;
+        for i
+    }
