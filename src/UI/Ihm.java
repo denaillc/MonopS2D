@@ -39,5 +39,7 @@ public class Ihm extends Observable{
             return(nom);
     }
     
-    
+    public static void CreationJoueurs(){
+        
+    }
 }

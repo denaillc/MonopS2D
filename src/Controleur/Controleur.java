@@ -32,11 +32,7 @@ public class Controleur implements Observer {
         
     }
     
-    
-    
-    
-    
-    
+ 
     
 
     ////////////////////////////////////////////////////////////////
