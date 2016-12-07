@@ -21,6 +21,7 @@ public class Controleur implements Observer {
     private Carreau carreaux;
     private ArrayList<Joueur> joueurs = new ArrayList<>();
     private HashMap<String,String> plateau = new HashMap<>();
+    private HashSet<Groupe> groupes = new HashSet<>();
 
     public Controleur() {
         this.CreerPlateau("src//Data//data.txt");
@@ -45,30 +46,34 @@ public class Controleur implements Observer {
     }
 
     private void buildGamePlateau(String dataFilename) {
+      
         try {
             ArrayList<String[]> data = readDataFile(dataFilename, ",");
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
+                Groupe e = new Groupe(CouleurPropriete.valueOf(data.get(i)[2]));
+                groupes.add(e);
+                
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    Propriete p = new Propriete(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]));
+                    Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), data.get(i)[2]);
                     //AJOUTER p AU PLATEAU;
                     
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    //Gare g = new Gare();
+                    Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]));
                     //AJOUTER g AU PLATEAU;
                     
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    //Compagnie c = new Compagnie();
+                    Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]));
                     //AJOUTER c AU PLATEAU;
                     
                 } else if (caseType.compareTo("AU") == 0) {
                     System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    //Carreau c = new Carreau();
+                    Carreau c = new Carreau(i, data.get(i)[2]);
                     //AJOUTER c AU PLATEAU;
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type");
@@ -146,7 +151,13 @@ public class Controleur implements Observer {
 	if(p.getProprietaire() != null){ //bien possédé
            
 	    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
-		int loy = p.calculLoyer(resultde);
+                
+                
+
+                
+                
+                
+		int loy = p.calculLoyer(resultde, groupes);
                 j.payerLoyer(loy); //j paye le loyer
 		p.getProprietaire().recevoirLoyer(loy);
                }

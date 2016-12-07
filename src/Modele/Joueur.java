@@ -5,6 +5,7 @@
  */
 package Modele;
 
+import UI.CouleurPropriete;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,8 @@ public class Joueur {
     private String nom;
     private int cash;
     private Carreau positionCourante;
+    private ArrayList<Propriete_A_Construire> constructibles;
+    private ArrayList<Compagnie> compagnies;
     private ArrayList<Gare> gares;
     private ArrayList<Propriete> propriete;
 
@@ -49,7 +52,7 @@ public class Joueur {
     public void recevoirLoyer(int loyer){
         setCash(getCash()+loyer);
     }
-
+    
     public Carreau getPositionCourante() {
         return positionCourante;
     }
@@ -74,7 +77,7 @@ public class Joueur {
         this.gares = gares;
     }
 
-    public ArrayList<Propriete> getPropriete() {
+    public ArrayList<Propriete> getProprietes() {
         return propriete;
     }
 
@@ -83,6 +86,24 @@ public class Joueur {
     }
     
     public void addPropriete(Propriete p){
-        getPropriete().add(p);
+        getProprietes().add(p);
+    }
+
+    public ArrayList<Compagnie> getCompagnies() {
+        return compagnies;
+    }
+
+    public void setCompagnies(ArrayList<Compagnie> compagnies) {
+        this.compagnies = compagnies;
+    }
+    
+    public int getNbProprieteCouleur(CouleurPropriete couleur) {
+        int n = 0;
+        for (Propriete_A_Construire c : constructibles){
+            if (c.getCouleur() == couleur) {
+                n++;
+            }
+        }
+        return n;
     }
 }

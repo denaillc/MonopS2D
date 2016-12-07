@@ -5,12 +5,14 @@
  */
 package Modele;
 
+import java.util.HashSet;
+
 /**
  *
  * @author albertar
  */
 
-public class Propriete extends Carreau {
+public abstract class Propriete extends Carreau {
 
 	private Joueur proprietaire;
         private int prixAchat;
@@ -37,10 +39,7 @@ public class Propriete extends Carreau {
                 setProprietaire(j);
 	}
         
-        
-	public void payerLoyer(Joueur jAch, Joueur JRec) {
-  
-	}
+        public abstract int calculLoyer (int valDes, HashSet<Groupe> groupes);
 
 	public int getPrix() {
 		return prixAchat;

@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import java.util.HashSet;
+
 /**
  *
  * @author albertar
@@ -13,6 +15,32 @@ public class Compagnie extends Propriete {
     
     public Compagnie(int numero, String nom, int loyer, int prix) {
         super(numero, nom, loyer, prix);
+    }
+    
+    /*
+    @Override
+    public int calculLoyer(int valDes, int nbCompagnies) {
+        int r = 0;
+        if (nbCompagnies == 1) {
+            r = valDes * 4;
+        }
+        else if (nbCompagnies == 2) {
+            r = valDes * 10;
+        }
+        return r;
+    }*/
+    
+    
+    @Override
+    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+        int r = 0;
+        if (this.getProprietaire().getCompagnies().size() == 1) {
+            r = valDes * 4;
+        }
+        else if (this.getProprietaire().getCompagnies().size() == 2) {
+            r = valDes * 10;
+        }
+        return r;
     }
     
     
