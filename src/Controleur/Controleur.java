@@ -57,7 +57,7 @@ public class Controleur implements Observer {
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
-                    putCarreau(Integer.valueOf(data.get(i)[1]), p);
+                    putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
                             
                     if (!(groupes.keySet().contains(g.getCouleur()))) {
@@ -78,17 +78,17 @@ public class Controleur implements Observer {
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    //AJOUTER g AU PLATEAU;
+                   putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    //AJOUTER c AU PLATEAU;
+                    putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     
                 } else if (caseType.compareTo("AU") == 0) {
                     System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Carreau c = new Carreau(i, String.valueOf(data.get(i)[2]));
-                    //AJOUTER c AU PLATEAU;
+                    putCarreau(i,new Carreau(i,data.get(i)[2])); // Ajout des Carreaux dans le plateau
                 } else {
                     System.err.println("[buildGamePlateau()] : Invalid Data type");
                 }
