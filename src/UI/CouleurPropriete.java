@@ -10,15 +10,15 @@ package UI;
  * @author albertar
  */
 public enum CouleurPropriete {
-    BleuFonce ("Bleu Foncé"),
-    Orange ("Orange"),
-    Gris ("Gris"),
-    Rouge("Rouge"),
-    Jaune("Jaune"),
-    Vert("Vert"),
-    Violet("Violet"),
-    Mauve("Mauve"),
-    BleuCiel("Bleu Ciel");
+    bleuFonce ("Bleu Foncé"),
+    orange ("Orange"),
+    gris ("Gris"),
+    rouge("Rouge"),
+    jaune("Jaune"),
+    vert("Vert"),
+    violet("Violet"),
+    mauve("Mauve"),
+    bleuCiel("Bleu Ciel");
     
     private String name ;
 
