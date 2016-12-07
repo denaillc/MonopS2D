@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import UI.CouleurPropriete;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -39,7 +41,7 @@ public abstract class Propriete extends Carreau {
                 setProprietaire(j);
 	}
         
-        public abstract int calculLoyer (int valDes, HashSet<Groupe> groupes);
+        public abstract int calculLoyer (int valDes, HashMap<CouleurPropriete, Groupe> groupes);
 
 	public int getPrix() {
 		return prixAchat;

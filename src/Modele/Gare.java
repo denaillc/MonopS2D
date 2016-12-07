@@ -5,20 +5,25 @@
  */
 package Modele;
 
+import UI.CouleurPropriete;
+import java.util.HashMap;
 import java.util.HashSet;
+
+
 
 /**
  *
  * @author albertar
  */
 public class Gare extends Propriete {
-    
-    public Gare(int numero, String nom, int loyer, int prix) {
-        super(numero, nom, loyer, prix);
+
+    public Gare(int numero, String nom, int prix) {
+        super(numero, nom, 25, prix);
+        
     }
 
     @Override
-    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+    public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {
         return this.getPrixLoyer() * this.getProprietaire().getGares().size();
     }
     

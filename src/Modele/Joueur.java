@@ -22,11 +22,12 @@ public class Joueur {
     private ArrayList<Gare> gares;
     private ArrayList<Propriete> propriete;
 
-    public Joueur(String nom) {
+    public Joueur(String nom, Carreau c) {
         this.gares = new ArrayList();
         this.propriete = new ArrayList();
         this.nom = nom;
         this.cash = 1500;
+        this.positionCourante = c;
     }
 
     public String getNom() {

@@ -6,6 +6,7 @@
 package Modele;
 
 import UI.CouleurPropriete;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -23,19 +24,16 @@ public class Propriete_A_Construire extends Propriete {
     }
 
     @Override
-    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+    public int calculLoyer(int valDes, HashMap<CouleurPropriete, Groupe> groupes) {
         
         int nb = 0;
         
-        Iterator<Groupe> it = groupes.iterator();
-        while (it.hasNext()) {
-            Groupe g = it.next();
-            if(this.getCouleur() == g.getCouleur()) {
-                nb = g.getProprietes().size();
+        for (Groupe gr : groupes.values()) {
+            if (this.getCouleur() == gr.getCouleur()) {
+                nb = gr.getProprietes().size();
             }
         }
-        
-        
+                
         if (this.getProprietaire().getNbProprieteCouleur(couleur) == nb) {
             return this.getPrixLoyer() * 2;
         }

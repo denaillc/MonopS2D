@@ -5,6 +5,8 @@
  */
 package Modele;
 
+import UI.CouleurPropriete;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -13,8 +15,8 @@ import java.util.HashSet;
  */
 public class Compagnie extends Propriete {
     
-    public Compagnie(int numero, String nom, int loyer, int prix) {
-        super(numero, nom, loyer, prix);
+    public Compagnie(int numero, String nom, int prix) {
+        super(numero, nom, 4, prix);
     }
     
     /*
@@ -32,7 +34,7 @@ public class Compagnie extends Propriete {
     
     
     @Override
-    public int calculLoyer(int valDes, HashSet<Groupe> groupes) {
+    public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {
         int r = 0;
         if (this.getProprietaire().getCompagnies().size() == 1) {
             r = valDes * 4;
