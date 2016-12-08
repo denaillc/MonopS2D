@@ -22,6 +22,8 @@ public class Controleur implements Observer {
     private ArrayList<Joueur> joueurs = new ArrayList<>();
     private HashMap<Integer,Carreau> plateau = new HashMap<>();
     private HashMap<CouleurPropriete,Groupe> groupes = new HashMap<>();
+    private int nbJoueur;
+    private String nomJoueur;
 
     public Controleur() {
         this.CreerPlateau("src//Data//data.txt");
@@ -30,7 +32,11 @@ public class Controleur implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        
+        if(arg instanceof Integer){
+            setNbJoueur((int) arg);
+        }else if (arg instanceof String){
+            setNomJoueur((String) arg);
+        }
     }
     
  
@@ -57,7 +63,7 @@ public class Controleur implements Observer {
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
-                    putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
+                    putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
                             
                     if (!(groupes.keySet().contains(g.getCouleur()))) {
@@ -78,21 +84,20 @@ public class Controleur implements Observer {
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                   putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
+                   putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putCarreau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
+                    putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
                     
                 } else if (caseType.compareTo("AU") == 0) {
                     System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Carreau c = new Carreau(i, String.valueOf(data.get(i)[2]));
-                    putCarreau(i,new Carreau(i,data.get(i)[2])); // Ajout des Carreaux dans le plateau
+                    putPlateau(i,new Carreau(i,data.get(i)[2])); // Ajout des Carreaux dans le plateau
                 } else {
                     System.err.println("[buildGamePlateau()] : Invalid Data type");
                 }
-                this.getPlateau().put(data.get(i)[1], data.get(i)[2]); //Ajoute les cases a la collections plateau
             }
 
         } catch (FileNotFoundException e) {
@@ -119,13 +124,9 @@ public class Controleur implements Observer {
     
     //Creation de joueurs
     public void creerJoueurs(){ 
-       int nb = vue.nbJoueur();
-        for(int i = 0; i<nb; i++){
-            addJoueurs(new Joueur(vue.nomJoueur(),this.));            /*Changer la creation de joueur en prenant en compte l'observateur (notifyObserver()) 
-                                                                et ainsi supprimer la boucle ajouter toutes les verification dans le controleur et 
-                                                                juste demander a l'ihm  les valeurs (nom des joueurs) on créera une classe enum avec
-                                                                les validations et ce sera le client qui rentrera le nombre de joueur qu'il veut 
-                                                                sans demande de nombre au préalable.*/  
+       vue.nbJoueur();
+        for(int i = 0; i<getNbJoueur(); i++){
+            addJoueurs(new Joueur(getNomJoueur(),getCarreauPlateau(0)));                                           
         }
         for(Joueur j : joueurs){
             System.out.println(j.getNom());
@@ -190,7 +191,7 @@ public class Controleur implements Observer {
         return((j.getCash() - p.getPrixAchat()) <= 0);
     }
     
-    public void putCarreau(int i, Carreau c){
+    public void putPlateau(int i, Carreau c){
         plateau.put(i, c);
     }
     
@@ -219,11 +220,11 @@ public class Controleur implements Observer {
         this.joueurs.add(e);
     }
 
-    public HashMap<String, String> getPlateau() {
+    public HashMap<Integer, Carreau> getPlateau() {
         return plateau;
     }
 
-    public void setPlateau(HashMap<String, String> plateau) {
+    public void setPlateau(HashMap<Integer, Carreau> plateau) {
         this.plateau = plateau;
     }
 
@@ -238,10 +239,27 @@ public class Controleur implements Observer {
     public HashMap<CouleurPropriete, Groupe> getGroupes() {
         return groupes;
     }
-
     public void setGroupes(HashMap<CouleurPropriete, Groupe> groupes) {
         this.groupes = groupes;
     }
+
+    public int getNbJoueur() {
+        return nbJoueur;
+    }
+
+    public void setNbJoueur(int nbJoueur) {
+        this.nbJoueur = nbJoueur;
+    }
+
+    public String getNomJoueur() {
+        return nomJoueur;
+    }
+
+    public void setNomJoueur(String nomJoueur) {
+        this.nomJoueur = nomJoueur;
+    }
     
-    
+    public Carreau getCarreauPlateau(int c){
+        return getPlateau().get(c);
+    }
 }

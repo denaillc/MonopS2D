@@ -15,7 +15,7 @@ public class Ihm extends Observable{
      private static int nbJoueurs;
      private static String nomJoueur;
     
-   public static int nbJoueur() {
+   public void nbJoueur() {
         int c = 0;
         System.out.print("Inscrire le nombre de joueur : ");
         while (c > 6 || c < 2) {
@@ -29,15 +29,21 @@ public class Ihm extends Observable{
                 System.out.print("Entrer un nombre de joueurs entre 2 et 6 :");
             }
         }
-        return (c);
+        
+        setChanged();
+        notifyObservers(c);
+        clearChanged();
     }
     
-    public static String nomJoueur(){
+    public void nomJoueur(){
         Scanner sc = new Scanner(System.in);
             System.out.print("Entrez le nom du joueur : ");
             String nom = sc.nextLine();
             System.out.println("\n");
-            return(nom);
+            
+            setChanged();
+            notifyObservers(nom);
+            clearChanged();
     }
     
     public static void CreationJoueurs(){
