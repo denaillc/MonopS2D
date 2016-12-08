@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class Controleur implements Observer {
 
-    private Ihm vue;
+    private Ihm vue = new Ihm();
     private Carreau carreaux;
     private ArrayList<Joueur> joueurs = new ArrayList<>();
     private HashMap<Integer,Carreau> plateau = new HashMap<>();
@@ -26,21 +26,41 @@ public class Controleur implements Observer {
     private String nomJoueur;
 
     public Controleur() {
-        this.CreerPlateau("src//Data//data.txt");
+        vue.addObserver(this);
+        DeroulementMonopoly();
+        
+        
+    }
+    
+    public void DeroulementMonopoly() {
+        CreerPlateau("src//Data//data.txt");
+        System.out.println("Joueur");
         creerJoueurs();
+        
+    
     }
     
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Integer){
-            setNbJoueur((int) arg);
+        if(arg instanceof Validation){
+            if(arg == Validation.ValiderNombreJoueur)
+                setNbJoueur(vue.getNbJoueurs());
+            
+            System.out.println(getNbJoueur());
+            
+            
+            
         }else if (arg instanceof String){
             setNomJoueur((String) arg);
+            System.out.println("Bug2");
+        }else{
+            System.out.println("Fin");
         }
     }
     
- 
-    
+     public void addView(Ihm personne) {
+        personne.abonner(this);
+    }
 
     ////////////////////////////////////////////////////////////////
     //////CREATION//////////////////////////////////////////////////
@@ -125,8 +145,9 @@ public class Controleur implements Observer {
     //Creation de joueurs
     public void creerJoueurs(){ 
        vue.nbJoueur();
-        for(int i = 0; i<getNbJoueur(); i++){
-            addJoueurs(new Joueur(getNomJoueur(),getCarreauPlateau(0)));                                           
+        for(int i = 0; i< getNbJoueur(); i++){
+            vue.nomJoueur();
+            addJoueurs(new Joueur(this.getNomJoueur(),getCarreauPlateau(0)));                                           
         }
         for(Joueur j : joueurs){
             System.out.println(j.getNom());
@@ -164,14 +185,7 @@ public class Controleur implements Observer {
     public void actionPropriete(Joueur j, int resultde, Propriete p){
      
 	if(p.getProprietaire() != null){ //bien possédé
-           
-	    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
-                
-                
-
-                
-                
-                
+    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
 		int loy = p.calculLoyer(resultde, groupes);
                 j.payerLoyer(loy); //j paye le loyer
 		p.getProprietaire().recevoirLoyer(loy);
@@ -262,4 +276,6 @@ public class Controleur implements Observer {
     public Carreau getCarreauPlateau(int c){
         return getPlateau().get(c);
     }
+
+    
 }

@@ -10,6 +10,8 @@ package UI;
  * @author albertar
  */
 public enum Validation {
-    ValiderNouveauJoueur,
+    ValiderNombreJoueur,
     StopCreationJoueur;
+    
 }
+

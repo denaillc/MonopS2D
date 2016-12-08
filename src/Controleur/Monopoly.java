@@ -23,12 +23,12 @@ public class Monopoly {
         
        Controleur controleur = new Controleur();
        
-       for (Groupe g : controleur.getGroupes().values()) {
+     /*  for (Groupe g : controleur.getGroupes().values()) {
            System.out.println("\n\nCouleur : " + g.getCouleur().toString() + " Nb Propriétés : " + g.getProprietes().size());
            for (int i = 0; i < g.getProprietes().size() ; i++) {
                System.out.println("Nom : " + g.getProprietes().get(i).getNom() + " --- Prix : " + g.getProprietes().get(i).getPrix() );
            }
-       }
+       }*/
        
     }
     
