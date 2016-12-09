@@ -13,7 +13,7 @@ public enum Validation {
     ValiderNombreJoueur,
     ValiderNomJoueur,
     Jouer,
-    LancerDés;
+    Lancer_Dés;
     
 }
 

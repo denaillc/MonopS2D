@@ -5,6 +5,7 @@
  */
 package UI;
 
+import Modele.Joueur;
 import java.util.*;
 
 /**
@@ -16,7 +17,9 @@ public class Ihm extends Observable{
     private String nomJoueur;
     
    
-   
+   ///////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////AFFICHAGE/////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
    public void nbJoueur() {
        System.out.print("Inscrire le nombre de joueurs : ");
        while (this.getNbJoueurs() > 6 || this.getNbJoueurs() < 2) {
@@ -47,16 +50,21 @@ public class Ihm extends Observable{
     }
 
     
-    public void Jouer(){
+    public void Jouer(Joueur jCourant){
         Scanner sc = new Scanner(System.in);
-        System.out.println("A votre tour ! (Appuyer sur une touche)");
+        System.out.println("A votre tour Joueur +  ! (Appuyer sur une touche)");
         sc.nextLine();
         
         setChanged();
-            notifyObservers(Validation.Jouer);
+            notifyObservers(Validation.Lancer_Dés);
             clearChanged();
     }
     
+    public void Double(){
+        System.out.println("\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
+        System.out.println("\\//\\//\\//\\//\\//\\//DOUBLE!!!!!!!!!!!!!!!!/\\//\\//\\");
+        System.out.println("\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
+    }
     
     
     

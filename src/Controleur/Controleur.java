@@ -5,7 +5,6 @@
  */
 package Controleur;
 
-
 import Modele.*;
 import UI.*;
 import java.io.*;
@@ -18,103 +17,115 @@ import java.util.*;
 public class Controleur implements Observer {
 
     private Ihm vue = new Ihm();
-    private Utilitaire dés = new Utilitaire();
-    private Integer valdés;
     private ArrayList<Joueur> joueurs = new ArrayList<>();
-    private HashMap<Integer,Carreau> plateau = new HashMap<>();
-    private HashMap<CouleurPropriete,Groupe> groupes = new HashMap<>();
+    private HashMap<Integer, Carreau> plateau = new HashMap<>();
+    private HashMap<CouleurPropriete, Groupe> groupes = new HashMap<>();
     private int nbJoueur;
     private String nomJoueur;
+    private int valDés1;
+    private int valDés2;
+    private int valDésTot;
 
     public Controleur() {
         vue.addObserver(this);
         DeroulementMonopoly();
-        
-        
+
     }
-    
+
     public void DeroulementMonopoly() {
+
+        //Creation du plateau et des joueurs
         CreerPlateau("src//Data//data.txt");
         System.out.println("Joueur");
         creerJoueurs();
-        vue.Jouer();
-        
-        
-    
+
+        //Lancement du tour de jeu
+        for (Joueur j : joueurs) {
+            vue.Jouer(j);
+            avancer(j, getValDésTot());
+            while (getValDés1() == getValDés2()) {
+               vue.Double();
+                vue.Jouer(j);
+                avancer(j, getValDésTot());
+
+            }
+        }
+
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Validation){
-            if(arg == Validation.ValiderNombreJoueur)
+        if (arg instanceof Validation) {
+            if (arg == Validation.ValiderNombreJoueur) {
                 setNbJoueur(vue.getNbJoueurs());
-            if(arg == Validation.ValiderNomJoueur)
-            setNomJoueur(vue.getNomJoueur());
-            if(arg == Validation.Jouer);
-                setValdés(dés.De3()+dés.De3());
-        }else{
+            }
+            if (arg == Validation.ValiderNomJoueur) {
+                setNomJoueur(vue.getNomJoueur());
+            }
+            if (arg == Validation.Lancer_Dés);
+            setValDés1(Utilitaire.De3());
+            setValDés2(Utilitaire.De3());
+            setValDésTot(getValDés1() + getValDés2());
+
+        } else {
             System.out.println("Erreur Validation Enumerer");
             System.exit(0);
         }
     }
-    
-     public void addView(Ihm personne) {
+
+    public void addView(Ihm personne) {
         personne.abonner(this);
     }
 
     ////////////////////////////////////////////////////////////////
     //////////////////////CREATION//////////////////////////////////
     ////////////////////////////////////////////////////////////////
-    
     //Creation plateau
     public void CreerPlateau(String dataFilename) {
         buildGamePlateau(dataFilename);
     }
 
     private void buildGamePlateau(String dataFilename) {
-      
+
         try {
             ArrayList<String[]> data = readDataFile(dataFilename, ",");
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
-                
+
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
-                    putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
+                    putPlateau(i, p);// Ajout des Carreaux dans le plateau
                     Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
-                            
+
                     if (!(groupes.keySet().contains(g.getCouleur()))) {
                         groupes.put(g.getCouleur(), g);
                         g.addPropriete(p);
-                    }
-                    else {
+                    } else {
                         for (Groupe gr : groupes.values()) {
                             if (gr.getCouleur() == g.getCouleur()) {
                                 gr.addPropriete(p);
                             }
                         }
                     }
-                    
-                    
+
                     //AJOUTER p AU PLATEAU;
-                    
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                   putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
-                    
+                    putPlateau(i, g);// Ajout des Carreaux dans le plateau
+
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putPlateau(i,new Carreau(i,data.get(i)[2]));// Ajout des Carreaux dans le plateau
-                    
+                    putPlateau(i, c);// Ajout des Carreaux dans le plateau
+
                 } else if (caseType.compareTo("AU") == 0) {
                     System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    Carreau c = new Carreau(i, String.valueOf(data.get(i)[2]));
-                    putPlateau(i,new Carreau(i,data.get(i)[2])); // Ajout des Carreaux dans le plateau
+                    Carreau ca = new Carreau(i, String.valueOf(data.get(i)[2]));
+                    putPlateau(i, ca); // Ajout des Carreaux dans le plateau
                 } else {
                     System.err.println("[buildGamePlateau()] : Invalid Data type");
                 }
@@ -139,81 +150,58 @@ public class Controleur implements Observer {
 
         return data;
     }
-    
-    
-    
+
     //Creation de joueurs
-    public void creerJoueurs(){ 
-       vue.nbJoueur();
-        for(int i = 0; i< getNbJoueur(); i++){
+    public void creerJoueurs() {
+        vue.nbJoueur();
+        for (int i = 0; i < getNbJoueur(); i++) {
             vue.nomJoueur();
-            addJoueurs(new Joueur(this.getNomJoueur(),getCarreauPlateau(0)));                                           
+            addJoueurs(new Joueur(this.getNomJoueur(), getCarreauPlateau(0)));
         }
-        for(Joueur j : joueurs){
+        for (Joueur j : joueurs) {
             System.out.println(j.getNom());
         }
     }
-    
-    
+
     ////////////////////////////////////////////////////////////////////////
     //////////////////////////ACTION////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
-    
-    
-    
     public void avancer(Joueur jCourant, int valdes) {
-       Carreau cCourant = jCourant.getPositionCourante();
+        Carreau cCourant = jCourant.getPositionCourante();
         int numC = cCourant.getNumero();
-        int newC = calculPosition(numC, getValdés());
-    }
-
-    
-    public void miseAJour(int type) {
-        
-    }
-
-    public Joueur getJoueurCourant() {
-        return null;
+        int newNumC = calculPosition(numC, getValDés1());
+        Carreau newC = getCarreauPlateau(newNumC % 40);//Permet de faire des tours de plateau
+        jCourant.setPositionCourante(newC);
     }
 
     public int calculPosition(int numC, int valDes) {
         return numC + valDes;
     }
 
-    public void actionPropriete(Joueur j, int resultde, Propriete p){
-     
-	if(p.getProprietaire() != null){ //bien possédé
-    if(p.getProprietaire() != j){ //j n'est pas le propriétaire
-		int loy = p.calculLoyer(resultde, groupes);
+    public void actionPropriete(Joueur j, int resultde, Propriete p) {
+
+        if (p.getProprietaire() != null) { //bien possédé
+            if (p.getProprietaire() != j) { //j n'est pas le propriétaire
+                int loy = p.calculLoyer(resultde, groupes);
                 j.payerLoyer(loy); //j paye le loyer
-		p.getProprietaire().recevoirLoyer(loy);
-               }
-	}
-	else{
-	    if(assezArgent(j,p)){//Proposition d'achat si assez d'argent
-             }
-	    else{
-	 }
-	}
+                p.getProprietaire().recevoirLoyer(loy);
+            }
+        } else if (assezArgent(j, p)) {//Proposition d'achat si assez d'argent
+        } else {
+        }
     }
-    
-    
-    
-    public boolean assezArgent(Joueur j, Propriete p){
-        return((j.getCash() - p.getPrixAchat()) <= 0);
+
+    public boolean assezArgent(Joueur j, Propriete p) {
+        return ((j.getCash() - p.getPrixAchat()) <= 0);
     }
-    
-    public void putPlateau(int i, Carreau c){
+
+    public void putPlateau(int i, Carreau c) {
         plateau.put(i, c);
     }
-    
-    
-    
-    
+
     //////////////////////////////////////////////////////////////////////
     ///////////////////////GETTEUR&SETTEUR////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-
     public ArrayList<Joueur> getJoueurs() {
         return joueurs;
     }
@@ -241,6 +229,7 @@ public class Controleur implements Observer {
     public HashMap<CouleurPropriete, Groupe> getGroupes() {
         return groupes;
     }
+
     public void setGroupes(HashMap<CouleurPropriete, Groupe> groupes) {
         this.groupes = groupes;
     }
@@ -260,18 +249,33 @@ public class Controleur implements Observer {
     public void setNomJoueur(String nomJoueur) {
         this.nomJoueur = nomJoueur;
     }
-    
-    public Carreau getCarreauPlateau(int c){
+
+    public Carreau getCarreauPlateau(int c) {
         return getPlateau().get(c);
     }
 
-    public Integer getValdés() {
-        return valdés;
+    public int getValDés2() {
+        return valDés2;
     }
 
-    public void setValdés(Integer valdés) {
-        this.valdés = valdés;
+    public void setValDés2(int valDés2) {
+        this.valDés2 = valDés2;
     }
 
-    
+    public int getValDés1() {
+        return valDés1;
+    }
+
+    public void setValDés1(int valDés1) {
+        this.valDés1 = valDés1;
+    }
+
+    public int getValDésTot() {
+        return valDésTot;
+    }
+
+    public void setValDésTot(int valDésTot) {
+        this.valDésTot = valDésTot;
+    }
+
 }
