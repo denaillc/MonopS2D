@@ -26,5 +26,11 @@ public class Gare extends Propriete {
     public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {
         return this.getPrixLoyer() * this.getProprietaire().getGares().size();
     }
-    
+    @Override
+   public void acheterPropriete(Joueur j) {
+        j.setCash(j.getCash() - getPrixAchat());
+        j.addPropriete(this);
+        setProprietaire(j);
+        j.addGare(this);
+   }
 }

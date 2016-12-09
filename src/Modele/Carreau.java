@@ -18,6 +18,12 @@ public class Carreau {
         this.nom = nom;
     }
 
+    
+    public boolean estProp(){
+        return false;
+    }
+    
+    
     public int getNumero() {
         return numero;
     }

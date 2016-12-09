@@ -25,6 +25,7 @@ public class Controleur implements Observer {
     private int valDés1;
     private int valDés2;
     private int valDésTot;
+    private Joueur jCourant;
 
     public Controleur() {
         vue.addObserver(this);
@@ -41,13 +42,16 @@ public class Controleur implements Observer {
 
         //Lancement du tour de jeu
         for (Joueur j : joueurs) {
-            vue.Jouer(j);
-            avancer(j, getValDésTot());
+            setjCourant(j);
+            vue.Jouer(j);//Lance es dés
+            avancer(j, getValDésTot());// Le joueur courant avances
             while (getValDés1() == getValDés2()) {
-               vue.Double();
-                vue.Jouer(j);
+                vue.Double();//Affichage double
+                vue.Jouer(j);//Rejoue
                 avancer(j, getValDésTot());
-
+            }
+            if (j.getPositionCourante().estProp()) {
+                actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante());
             }
         }
 
@@ -62,11 +66,22 @@ public class Controleur implements Observer {
             if (arg == Validation.ValiderNomJoueur) {
                 setNomJoueur(vue.getNomJoueur());
             }
-            if (arg == Validation.Lancer_Dés);
+            if (arg == Validation.Lancer_Dés){
             setValDés1(Utilitaire.De3());
             setValDés2(Utilitaire.De3());
             setValDésTot(getValDés1() + getValDés2());
-
+            }
+            if (arg == Validation.AchatPropriete){
+               ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);
+                
+            }
+            if (arg == Validation.NonAchatPropriete){
+                
+            }
+            if(arg == Validation.ErreurProp){
+                vue.ProposerAchat((Propriete) jCourant.getPositionCourante(), getjCourant());
+            }
+            
         } else {
             System.out.println("Erreur Validation Enumerer");
             System.exit(0);
@@ -156,7 +171,7 @@ public class Controleur implements Observer {
         vue.nbJoueur();
         for (int i = 0; i < getNbJoueur(); i++) {
             vue.nomJoueur();
-            addJoueurs(new Joueur(this.getNomJoueur(), getCarreauPlateau(0)));
+            addJoueurs(new Joueur(this.getNomJoueur(), getCarreauCourant(0)));
         }
         for (Joueur j : joueurs) {
             System.out.println(j.getNom());
@@ -170,7 +185,7 @@ public class Controleur implements Observer {
         Carreau cCourant = jCourant.getPositionCourante();
         int numC = cCourant.getNumero();
         int newNumC = calculPosition(numC, getValDés1());
-        Carreau newC = getCarreauPlateau(newNumC % 40);//Permet de faire des tours de plateau
+        Carreau newC = getCarreauCourant(newNumC % 40);//Permet de faire des tours de plateau
         jCourant.setPositionCourante(newC);
     }
 
@@ -179,15 +194,12 @@ public class Controleur implements Observer {
     }
 
     public void actionPropriete(Joueur j, int resultde, Propriete p) {
-
-        if (p.getProprietaire() != null) { //bien possédé
-            if (p.getProprietaire() != j) { //j n'est pas le propriétaire
-                int loy = p.calculLoyer(resultde, groupes);
-                j.payerLoyer(loy); //j paye le loyer
-                p.getProprietaire().recevoirLoyer(loy);
+        if (p.getProprietaire() == null) {
+            int cash = j.getCash();
+            int loyer = p.getPrixAchat();
+            if(cash>loyer){
+                vue.ProposerAchat(p, j);
             }
-        } else if (assezArgent(j, p)) {//Proposition d'achat si assez d'argent
-        } else {
         }
     }
 
@@ -250,7 +262,7 @@ public class Controleur implements Observer {
         this.nomJoueur = nomJoueur;
     }
 
-    public Carreau getCarreauPlateau(int c) {
+    public Carreau getCarreauCourant(int c) {
         return getPlateau().get(c);
     }
 
@@ -276,6 +288,14 @@ public class Controleur implements Observer {
 
     public void setValDésTot(int valDésTot) {
         this.valDésTot = valDésTot;
+    }
+
+    public Joueur getjCourant() {
+        return jCourant;
+    }
+
+    public void setjCourant(Joueur jCourant) {
+        this.jCourant = jCourant;
     }
 
 }

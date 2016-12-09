@@ -13,12 +13,11 @@ import java.util.HashSet;
  *
  * @author albertar
  */
-
 public abstract class Propriete extends Carreau {
 
-	private Joueur proprietaire;
-        private int prixAchat;
-	private int prixLoyer;
+    private Joueur proprietaire;
+    private int prixAchat;
+    private int prixLoyer;
 
     public Propriete(int numero, String nom, int loyer, int prix) {
         super(numero, nom);
@@ -26,31 +25,27 @@ public abstract class Propriete extends Carreau {
         prixAchat = prix;
         proprietaire = null;
     }
-    
-    
 
-	
+    public Joueur getProprietaire() {
+        return this.proprietaire;
+    }
 
-	public Joueur getProprietaire() {
-		return this.proprietaire;
-	}
+    public void acheterPropriete(Joueur j) {
+        j.setCash(j.getCash() - getPrixAchat());
+        j.addPropriete(this);
+        setProprietaire(j);
+    }
 
-	public void acheterPropriete(Joueur j) {
-		j.setCash(j.getCash()-getPrixAchat());
-                j.addPropriete(this);
-                setProprietaire(j);
-	}
-        
-        public abstract int calculLoyer (int valDes, HashMap<CouleurPropriete, Groupe> groupes);
+    public abstract int calculLoyer(int valDes, HashMap<CouleurPropriete, Groupe> groupes);
 
-	public int getPrix() {
-		return prixAchat;
-	}
+    @Override
+    public boolean estProp() {
+        return true;
+    }
 
-	public void setProprietaire(Joueur jCourant) {
-		this.proprietaire = jCourant;
-	}
-
+    public void setProprietaire(Joueur jCourant) {
+        this.proprietaire = jCourant;
+    }
 
     public int getPrixAchat() {
         return prixAchat;
@@ -67,7 +62,5 @@ public abstract class Propriete extends Carreau {
     public void setPrixLoyer(int prixLoyer) {
         this.prixLoyer = prixLoyer;
     }
-        
-        
 
 }

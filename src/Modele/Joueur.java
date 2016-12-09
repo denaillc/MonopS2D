@@ -25,11 +25,48 @@ public class Joueur {
     public Joueur(String nom, Carreau c) {
         this.gares = new ArrayList();
         this.propriete = new ArrayList();
+        this.constructibles = new ArrayList();
+        this.compagnies = new ArrayList();
         this.nom = nom;
         this.cash = 1500;
         this.positionCourante = c;
     }
 
+    
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////////Methodes////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    
+    
+     public void addGare(Gare g){
+        gares.add(g);
+    }
+    public void addPropriete(Propriete p){
+        getProprietes().add(p);
+    }
+    
+    public void addProprieteAConstruire(Propriete_A_Construire p){
+        getConstructibles().add(p);
+    }
+    
+    public void addCompagnie(Compagnie c){
+        getCompagnies().add(c);
+    }
+     public int getNbGares(){
+        return gares.size();
+    }
+    public void payerLoyer(int loyer){
+        setCash(getCash()-loyer);
+    }
+    
+    public void recevoirLoyer(int loyer){
+        setCash(getCash()+loyer);
+    }
+    
+    
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////GETTEUR&SETTEUR////////////////////
+    //////////////////////////////////////////////////////////////////////
     public String getNom() {
         return nom;
     }
@@ -45,14 +82,16 @@ public class Joueur {
     public void setCash(int cash) {
         this.cash = cash;
     }
-    
-    public void payerLoyer(int loyer){
-        setCash(getCash()-loyer);
+
+    public ArrayList<Propriete_A_Construire> getConstructibles() {
+        return constructibles;
+    }
+
+    public void setConstructibles(ArrayList<Propriete_A_Construire> constructibles) {
+        this.constructibles = constructibles;
     }
     
-    public void recevoirLoyer(int loyer){
-        setCash(getCash()+loyer);
-    }
+    
     
     public Carreau getPositionCourante() {
         return positionCourante;
@@ -60,14 +99,6 @@ public class Joueur {
 
     public void setPositionCourante(Carreau positionCourante) {
         this.positionCourante = positionCourante;
-    }
-    
-    public void addGare(Gare g){
-        gares.add(g);
-    }
-    
-    public int getNbGares(){
-        return gares.size();
     }
 
     public ArrayList<Gare> getGares() {
@@ -84,10 +115,6 @@ public class Joueur {
 
     public void setPropriete(ArrayList<Propriete> propriete) {
         this.propriete = propriete;
-    }
-    
-    public void addPropriete(Propriete p){
-        getProprietes().add(p);
     }
 
     public ArrayList<Compagnie> getCompagnies() {

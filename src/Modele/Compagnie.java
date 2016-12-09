@@ -45,5 +45,11 @@ public class Compagnie extends Propriete {
         return r;
     }
     
-    
+    @Override
+   public void acheterPropriete(Joueur j) {
+        j.setCash(j.getCash() - getPrixAchat());
+        j.addPropriete(this);
+        setProprietaire(j);
+        j.addCompagnie(this);
+   }
 }

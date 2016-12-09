@@ -40,6 +40,14 @@ public class Propriete_A_Construire extends Propriete {
         else return this.getPrixLoyer();
     }
 
+    @Override
+   public void acheterPropriete(Joueur j) {
+        j.setCash(j.getCash() - getPrixAchat());
+        j.addPropriete(this);
+        setProprietaire(j);
+        j.addProprieteAConstruire(this);
+   }
+    
     public CouleurPropriete getCouleur() {
         return couleur;
     }
