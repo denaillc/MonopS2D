@@ -45,11 +45,7 @@ public class Controleur implements Observer {
         if(arg instanceof Validation){
             if(arg == Validation.ValiderNombreJoueur)
                 setNbJoueur(vue.getNbJoueurs());
-            
             System.out.println(getNbJoueur());
-            
-            
-            
         }else if (arg instanceof String){
             setNomJoueur((String) arg);
             System.out.println("Bug2");
