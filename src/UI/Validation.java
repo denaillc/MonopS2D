@@ -11,7 +11,9 @@ package UI;
  */
 public enum Validation {
     ValiderNombreJoueur,
-    StopCreationJoueur;
+    ValiderNomJoueur,
+    Jouer,
+    LancerDés;
     
 }
 

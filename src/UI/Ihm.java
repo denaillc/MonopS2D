@@ -15,25 +15,6 @@ public class Ihm extends Observable{
     private int nbJoueurs =0;
     private String nomJoueur;
     
-   /*public void nbJoueur() {
-        int c = 0;
-        System.out.print("Inscrire le nombre de joueur : ");
-        while (c > 6 || c < 2) {
-            try {
-                Scanner sc = new Scanner(System.in);
-                c = sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.err.println("Entrer le nombre de joueurs sous format numérique (différent de 0) : ");
-            }
-            if (c > 6 || c< 2) {
-                System.out.print("Entrer un nombre de joueurs entre 2 et 6 :");
-                System.out.println(c);
-            }
-        }
-        setChanged();
-        notifyObservers(Validation.ValiderNombreJoueur);
-        clearChanged();
-    }*/
    
    
    public void nbJoueur() {
@@ -48,19 +29,42 @@ public class Ihm extends Observable{
            }
        }
        System.out.println("getNbJoueurs: " + this.getNbJoueurs());
+       
+       setChanged();
+       notifyObservers(Validation.ValiderNombreJoueur);
+       clearChanged();
    }
     
     public void nomJoueur(){
         Scanner sc = new Scanner(System.in);
             System.out.print("Entrez le nom du joueur : ");
-            String nom = sc.nextLine();
+            setNomJoueur(sc.nextLine());
             System.out.println("\n");
+            
             setChanged();
-            notifyObservers(nom);
+            notifyObservers(Validation.ValiderNomJoueur);
             clearChanged();
     }
 
     
+    public void Jouer(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("A votre tour ! (Appuyer sur une touche)");
+        sc.nextLine();
+        
+        setChanged();
+            notifyObservers(Validation.Jouer);
+            clearChanged();
+    }
+    
+    
+    
+    
+    
+    
+    //////////////////////////////////////////////////////////
+    //////////////////////////////////ADDOBSERVER/////////////
+    //////////////////////////////////////////////////////////
     
         public void abonner(Observer ecoutant) {
         this.addObserver(ecoutant);

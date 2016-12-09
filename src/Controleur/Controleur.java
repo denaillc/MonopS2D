@@ -18,7 +18,8 @@ import java.util.*;
 public class Controleur implements Observer {
 
     private Ihm vue = new Ihm();
-    private Carreau carreaux;
+    private Utilitaire dés = new Utilitaire();
+    private Integer valdés;
     private ArrayList<Joueur> joueurs = new ArrayList<>();
     private HashMap<Integer,Carreau> plateau = new HashMap<>();
     private HashMap<CouleurPropriete,Groupe> groupes = new HashMap<>();
@@ -36,6 +37,8 @@ public class Controleur implements Observer {
         CreerPlateau("src//Data//data.txt");
         System.out.println("Joueur");
         creerJoueurs();
+        vue.Jouer();
+        
         
     
     }
@@ -45,12 +48,13 @@ public class Controleur implements Observer {
         if(arg instanceof Validation){
             if(arg == Validation.ValiderNombreJoueur)
                 setNbJoueur(vue.getNbJoueurs());
-            System.out.println(getNbJoueur());
-        }else if (arg instanceof String){
-            setNomJoueur((String) arg);
-            System.out.println("Bug2");
+            if(arg == Validation.ValiderNomJoueur)
+            setNomJoueur(vue.getNomJoueur());
+            if(arg == Validation.Jouer);
+                setValdés(dés.De3()+dés.De3());
         }else{
-            System.out.println("Fin");
+            System.out.println("Erreur Validation Enumerer");
+            System.exit(0);
         }
     }
     
@@ -59,7 +63,7 @@ public class Controleur implements Observer {
     }
 
     ////////////////////////////////////////////////////////////////
-    //////CREATION//////////////////////////////////////////////////
+    //////////////////////CREATION//////////////////////////////////
     ////////////////////////////////////////////////////////////////
     
     //Creation plateau
@@ -157,25 +161,23 @@ public class Controleur implements Observer {
     
     
     
-    private Carreau avancer(Joueur j, int nb) {
-        // TODO - implement Controleur.avancer
-        throw new UnsupportedOperationException();
+    public void avancer(Joueur jCourant, int valdes) {
+       Carreau cCourant = jCourant.getPositionCourante();
+        int numC = cCourant.getNumero();
+        int newC = calculPosition(numC, getValdés());
     }
 
     
     public void miseAJour(int type) {
-        // TODO - implement Controleur.miseAJour
-        throw new UnsupportedOperationException();
+        
     }
 
     public Joueur getJoueurCourant() {
-        // TODO - implement Controleur.getJoueurCourant
-        throw new UnsupportedOperationException();
+        return null;
     }
 
     public int calculPosition(int numC, int valDes) {
-        // TODO - implement Controleur.calculPosition
-        throw new UnsupportedOperationException();
+        return numC + valDes;
     }
 
     public void actionPropriete(Joueur j, int resultde, Propriete p){
@@ -211,16 +213,6 @@ public class Controleur implements Observer {
     //////////////////////////////////////////////////////////////////////
     ///////////////////////GETTEUR&SETTEUR////////////////////////////////
     //////////////////////////////////////////////////////////////////////
-    
-    
-    
-    public Carreau getCarreaux() {
-        return carreaux;
-    }
-
-    public void setCarreaux(Carreau carreaux) {
-        this.carreaux = carreaux;
-    }
 
     public ArrayList<Joueur> getJoueurs() {
         return joueurs;
@@ -271,6 +263,14 @@ public class Controleur implements Observer {
     
     public Carreau getCarreauPlateau(int c){
         return getPlateau().get(c);
+    }
+
+    public Integer getValdés() {
+        return valdés;
+    }
+
+    public void setValdés(Integer valdés) {
+        this.valdés = valdés;
     }
 
     
