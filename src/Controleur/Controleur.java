@@ -18,6 +18,7 @@ public class Controleur implements Observer {
 
     private Ihm vue = new Ihm();
     private ArrayList<Joueur> joueurs = new ArrayList<>();
+    private ArrayList<Joueur> deathNote = new ArrayList();
     private HashMap<Integer, Carreau> plateau = new HashMap<>();
     private HashMap<CouleurPropriete, Groupe> groupes = new HashMap<>();
     private int nbJoueur;
@@ -41,20 +42,26 @@ public class Controleur implements Observer {
         creerJoueurs();
 
         //Lancement du tour de jeu
-        for (Joueur j : joueurs) {
-            setjCourant(j);
-            vue.Jouer(j);//Lance es dés
-            avancer(j, getValDésTot());// Le joueur courant avances
-            while (getValDés1() == getValDés2()) {
-                vue.Double();//Affichage double
-                vue.Jouer(j);//Rejoue
-                avancer(j, getValDésTot());
+        while (getJoueurs().size() > 1) { // Tant qu'il y a au moins 2 Joueur dans la partie
+            for (Joueur j : joueurs) {
+                setjCourant(j); // Permet de determiner le joueur Courant
+                vue.afficherJoueur(getjCourant());
+                vue.Jouer(j);//Lance les dés
+                avancer(j, getValDésTot());// Le joueur courant avances
+                while (getValDés1() == getValDés2()) {
+                    vue.Double();//Affichage double
+                    vue.Jouer(j);//Rejoue
+                    avancer(j, getValDésTot());
+                }
+                if (j.getPositionCourante().estProp()) {
+                    actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante()); //Agit sur le loyer
+                }
+                if (getjCourant().estMort()) {
+                    removeJoueurVivant(j);
+                    addJoueurDeathNote(j);
+                }
             }
-            if (j.getPositionCourante().estProp()) {
-                actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante());
-            }
-        }
-
+        } 
     }
 
     @Override
@@ -66,22 +73,22 @@ public class Controleur implements Observer {
             if (arg == Validation.ValiderNomJoueur) {
                 setNomJoueur(vue.getNomJoueur());
             }
-            if (arg == Validation.Lancer_Dés){
-            setValDés1(Utilitaire.De3());
-            setValDés2(Utilitaire.De3());
-            setValDésTot(getValDés1() + getValDés2());
+            if (arg == Validation.Lancer_Dés) {
+                setValDés1(Utilitaire.De3());
+                setValDés2(Utilitaire.De3());
+                setValDésTot(getValDés1() + getValDés2());
             }
-            if (arg == Validation.AchatPropriete){
-               ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);
-                
+            if (arg == Validation.AchatPropriete) {
+                ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);
+
             }
-            if (arg == Validation.NonAchatPropriete){
-                
+            if (arg == Validation.NonAchatPropriete) {
+
             }
-            if(arg == Validation.ErreurProp){
+            if (arg == Validation.ErreurProp) {
                 vue.ProposerAchat((Propriete) jCourant.getPositionCourante(), getjCourant());
             }
-            
+
         } else {
             System.out.println("Erreur Validation Enumerer");
             System.exit(0);
@@ -197,9 +204,16 @@ public class Controleur implements Observer {
         if (p.getProprietaire() == null) {
             int cash = j.getCash();
             int loyer = p.getPrixAchat();
-            if(cash>loyer){
+            if (cash > loyer) {
                 vue.ProposerAchat(p, j);
             }
+        } else if (j != p.getProprietaire()) {
+            int loyer = p.calculLoyer(valDés1, groupes);
+            j.payerLoyer(loyer);
+            p.getProprietaire().recevoirLoyer(loyer);
+            vue.payer(j, p, loyer);
+        } else {
+            vue.sweetHome(j);
         }
     }
 
@@ -211,15 +225,23 @@ public class Controleur implements Observer {
         plateau.put(i, c);
     }
 
+    public void addJoueurs(Joueur e) {
+        getJoueurs().add(e);
+    }
+
+    public void removeJoueurVivant(Joueur j) {
+        getJoueurs().remove(j);
+    }
+
+    public void addJoueurDeathNote(Joueur j) {
+        getDeathNote().add(j);
+    }
+
     //////////////////////////////////////////////////////////////////////
     ///////////////////////GETTEUR&SETTEUR////////////////////////////////
     //////////////////////////////////////////////////////////////////////
     public ArrayList<Joueur> getJoueurs() {
         return joueurs;
-    }
-
-    public void addJoueurs(Joueur e) {
-        this.joueurs.add(e);
     }
 
     public HashMap<Integer, Carreau> getPlateau() {
@@ -296,6 +318,14 @@ public class Controleur implements Observer {
 
     public void setjCourant(Joueur jCourant) {
         this.jCourant = jCourant;
+    }
+
+    public ArrayList<Joueur> getDeathNote() {
+        return deathNote;
+    }
+
+    public void setDeathNote(ArrayList<Joueur> deathNote) {
+        this.deathNote = deathNote;
     }
 
 }
