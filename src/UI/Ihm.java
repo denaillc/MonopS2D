@@ -67,8 +67,9 @@ public class Ihm extends Observable {
     public void ProposerAchat(Propriete p, Joueur j) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Joueur" + j.getNom() + "peut acheter la propriete" + p.getNom());
-        System.out.println("Voulez vous acheter la propriete ? (Oui/Non)");
-        String rep = sc.nextLine();
+      //  System.out.println("Voulez vous acheter la propriete ? (Oui/Non)");
+      //  String rep = sc.nextLine();
+      String rep = "oui";
         if (null != rep.toLowerCase()) {
             switch (rep.toLowerCase()) {
                 case "oui":

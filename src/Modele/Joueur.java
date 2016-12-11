@@ -64,7 +64,7 @@ public class Joueur {
     }
     
     public boolean estMort(){
-        return cash>0;
+        return cash<0;
     }
     
     //////////////////////////////////////////////////////////////////////

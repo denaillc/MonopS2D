@@ -42,10 +42,10 @@ public class Controleur implements Observer {
         creerJoueurs();
 
         //Lancement du tour de jeu
-        while (getJoueurs().size() > 1) { // Tant qu'il y a au moins 2 Joueur dans la partie
-            for (Joueur j : joueurs) {
+        while (getJoueurs().size() >= 1) { // Tant qu'il y a au moins 2 Joueur dans la partie
+            for (Joueur j : getJoueurs()) {
                 setjCourant(j); // Permet de determiner le joueur Courant
-                vue.afficherJoueur(getjCourant());
+                vue.afficherJoueur(getjCourant()); //Affiche les information du joueur Curant
                 vue.Jouer(j);//Lance les dés
                 avancer(j, getValDésTot());// Le joueur courant avances
                 while (getValDés1() == getValDés2()) {
@@ -53,15 +53,20 @@ public class Controleur implements Observer {
                     vue.Jouer(j);//Rejoue
                     avancer(j, getValDésTot());
                 }
-                if (j.getPositionCourante().estProp()) {
+//                System.out.println(getValDés1());       
+//                System.out.println(getValDés2());
+//                System.out.println(getValDésTot());
+                if (j.getPositionCourante().estProp()) { //Si c'est une propriete 
                     actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante()); //Agit sur le loyer
                 }
                 if (getjCourant().estMort()) {
-                    removeJoueurVivant(j);
-                    addJoueurDeathNote(j);
+                    removeJoueurVivant(j);      /*Probleme car si le joueur est supprimer
+                                                Erreur etant donner que l'on supprime 
+                                                un joueur de la collection que l'on parcours*/
+                    addJoueurDeathNote(j);      //Ajoute le joueur a la liste des joueurs mort
                 }
             }
-        } 
+        }
     }
 
     @Override
@@ -191,7 +196,7 @@ public class Controleur implements Observer {
     public void avancer(Joueur jCourant, int valdes) {
         Carreau cCourant = jCourant.getPositionCourante();
         int numC = cCourant.getNumero();
-        int newNumC = calculPosition(numC, getValDés1());
+        int newNumC = calculPosition(numC, getValDésTot());
         Carreau newC = getCarreauCourant(newNumC % 40);//Permet de faire des tours de plateau
         jCourant.setPositionCourante(newC);
     }
