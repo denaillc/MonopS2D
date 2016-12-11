@@ -18,7 +18,7 @@ public class Controleur implements Observer {
 
     private Ihm vue = new Ihm();
     private ArrayList<Joueur> joueurs = new ArrayList<>();
-    private ArrayList<Joueur> deathNote = new ArrayList();
+    private ArrayList<Joueur> deathNote = new ArrayList(); //Liste de joueur eliminer
     private HashMap<Integer, Carreau> plateau = new HashMap<>();
     private HashMap<CouleurPropriete, Groupe> groupes = new HashMap<>();
     private int nbJoueur;

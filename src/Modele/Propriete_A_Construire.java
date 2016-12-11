@@ -7,8 +7,6 @@ package Modele;
 
 import UI.CouleurPropriete;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  *
