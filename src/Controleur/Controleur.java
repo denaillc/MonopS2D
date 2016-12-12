@@ -29,9 +29,9 @@ public class Controleur implements Observer {
     private Joueur jCourant;
 
     public Controleur() {
-        vue.addObserver(this);
-        CreerPlateau("src//Data//data.txt");
-        vue.CtrlMenu();
+        vue.addObserver(this); 
+        CreerPlateau("src//Data//data.txt");                                                                                     //Creer et instancie le plateau
+        vue.CtrlMenu();                                                                                                          //Affiche le menu
 
     }
 
@@ -39,40 +39,43 @@ public class Controleur implements Observer {
         
         int i = 0;
         //Lancement du tour de jeu
-        while (getJoueurs().size() > 1) {                                                               // Tant qu'il y a au moins 2 Joueur dans la partie
+        while (getJoueurs().size() > 1) {                                                                                       // Tant qu'il y a au moins 2 Joueur dans la partie
             i++;
             for (Joueur j : getJoueurs()) {
-                setjCourant(j);                                                                         // Permet de déterminer le joueur Courant
-                vue.afficherJoueur(getjCourant(), i);                                                   //Affiche les information du joueur Courant
-                vue.Jouer(j);                                                                           //Lance les dés
-                avancer(j, getValDésTot());                                                             // Le joueur courant avance
+                setjCourant(j);                                                                                                 // Permet de déterminer le joueur Courant
+                vue.afficherJoueur(getjCourant(), i);                                                                           //Affiche les information du joueur Courant
+                vue.Jouer(getjCourant());                                                                                       //Lance les dés
+                avancer(j, getValDésTot());                                                                                     // Le joueur courant avance
+                if (j.getPositionCourante().estProp()) {                                                                        //Si c'est une propriete 
+                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) j.getPositionCourante());                        //Agit sur le loyer
+                }
                 while (getValDés1() == getValDés2()) {
-                    vue.Double();//Affichage double
-                    vue.Jouer(j);//Rejoue
-                    avancer(j, getValDésTot());
+                    vue.Double();                                                                                               //Affichage double
+                    vue.Jouer(getjCourant());                                                                                   //Rejoue
+                    avancer(getjCourant(), getValDésTot());
+                    
+                    if (j.getPositionCourante().estProp()) {                                                                     //Si c'est une propriete 
+                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) getjCourant().getPositionCourante());             //Agit sur le loyer
+                }
                     
                 }
-                if (j.getPositionCourante().estProp()) { //Si c'est une propriete 
-                    actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante()); //Agit sur le loyer
-                }
+                
                 if (getjCourant().estMort()) {
-                    addJoueurDeathNote(j);      //Ajoute le joueur a la liste des joueurs mort
-                    /*Probleme car si le joueur est supprimer
-                                                Erreur etant donner que l'on supprime 
-                                                un joueur de la collection que l'on parcours*/
-
+                    addJoueurDeathNote(getjCourant());                                                                          //Ajoute le joueur a la liste des joueurs mort
+                    ventePropriete(getjCourant());                                                                              //Reinitilialise tous les proprietaires des proprietes posséder par le jCourant
+                    vue.mort(getjCourant());                                                                                    //affiche le joueur mort
                 }
 
             }
 
-            for (Joueur j : getDeathNote()) {
-                removeJoueurVivant(j);
+            for (Joueur j : getDeathNote()) {                                                                                   
+                removeJoueurVivant(getjCourant());                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
             }
 
-            deathNote.clear();
+            deathNote.clear();                                                                                                  //Supprime la deathNote
         }
 
-        vue.FinPartie(getJoueurs().get(0).getNom());
+        vue.FinPartie(getJoueurs().get(0).getNom());                                                                            //Affiche le joueur Vainqueur
 
     }
 
@@ -80,7 +83,7 @@ public class Controleur implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof Validation) {
             if (arg == Validation.ValiderNombreJoueur) {
-                setNbJoueur(vue.getNbJoueurs());
+                setNbJoueur(vue.getNbJoueurs());                                                                                
             }
             if (arg == Validation.ValiderNomJoueur) {
                 setNomJoueur(vue.getNomJoueur());
@@ -99,7 +102,7 @@ public class Controleur implements Observer {
             }
             if (arg == Validation.ListeJoueurs) {
 
-                if (getJoueurs().size() == 0) {
+                if (getJoueurs().size() == 0) {                                                                                 //Si la liste est vide on creer les Joueur sinon on refuse la création
                     creerJoueurs();
                 } else {
                     vue.erreurListeJoueurs();
@@ -107,7 +110,7 @@ public class Controleur implements Observer {
 
             }
             if (arg == Validation.LancerPartie) {
-                if (getJoueurs().size() != 0) {
+                if (getJoueurs().size() != 0) {                                                                                 //Si la liste de joueur est vide on refuse le lancement de la partie
                     DeroulementMonopoly();
                 } else {
                     vue.erreurLancement();
@@ -116,19 +119,19 @@ public class Controleur implements Observer {
 
 
         } else {
-            System.out.println("Erreur Validation Enumerer");
+            System.out.println("Erreur Validation Enumerer");                                                                   //Gestion d'erreur si modification du code et probleme d'enumeration
             System.exit(0);
         }
     }
 
     public void addView(Ihm personne) {
-        personne.abonner(this);
+        personne.abonner(this);                                                                                                 //ajoute la vue
     }
 
     ////////////////////////////////////////////////////////////////
     //////////////////////CREATION//////////////////////////////////
     ////////////////////////////////////////////////////////////////
-    //Creation plateau
+                                                                                                                                //Creation plateau
     public void CreerPlateau(String dataFilename) {
         buildGamePlateau(dataFilename);
     }
@@ -138,13 +141,12 @@ public class Controleur implements Observer {
         try {
             ArrayList<String[]> data = readDataFile(dataFilename, ",");
 
-            //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
 
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
-                    putPlateau(i, p);// Ajout des Carreaux dans le plateau
+                    putPlateau(i, p);                                                                                           // Ajout des Carreaux dans le plateau
                     Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
 
                     if (!(groupes.keySet().contains(g.getCouleur()))) {
@@ -158,18 +160,18 @@ public class Controleur implements Observer {
                         }
                     }
 
-                    //AJOUTER p AU PLATEAU;
+                    
                 } else if (caseType.compareTo("G") == 0) {
                     Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putPlateau(i, g);// Ajout des Carreaux dans le plateau
+                    putPlateau(i, g);                                                                                           // Ajout des Carreaux dans le plateau
 
                 } else if (caseType.compareTo("C") == 0) {
                     Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putPlateau(i, c);// Ajout des Carreaux dans le plateau
+                    putPlateau(i, c);                                                                                           // Ajout des Carreaux dans le plateau
 
                 } else if (caseType.compareTo("AU") == 0) {
                     Carreau ca = new Carreau(i, String.valueOf(data.get(i)[2]));
-                    putPlateau(i, ca); // Ajout des Carreaux dans le plateau
+                    putPlateau(i, ca);                                                                                          // Ajout des Carreaux dans le plateau
                 } else {
                     System.err.println("[buildGamePlateau()] : Invalid Data type");
                 }
@@ -195,7 +197,7 @@ public class Controleur implements Observer {
         return data;
     }
 
-    //Creation de joueurs
+                                                                                                                                //Creation de joueurs
     public void creerJoueurs() {
         vue.nbJoueur();
         for (int i = 0; i < getNbJoueur(); i++) {
@@ -208,23 +210,23 @@ public class Controleur implements Observer {
     //////////////////////////ACTION////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////
     public void avancer(Joueur jCourant, int valdes) {
-        Carreau cCourant = jCourant.getPositionCourante();
-        int numC = cCourant.getNumero();
-        int newNumC = calculPosition(numC, getValDésTot());
-        Carreau newC = getCarreauCourant(newNumC % 40);//Permet de faire des tours de plateau
+        Carreau cCourant = jCourant.getPositionCourante();                                                                      //Recupere le Carreau du jCourant
+        int numC = cCourant.getNumero();                                                                                            
+        int newNumC = calculPosition(numC, getValDésTot());                                                                     //Utilisa la methode calculPosition
+        Carreau newC = getCarreauCourant(newNumC % 40);                                                                         //Le modulo permet de faire des tours de plateau
         jCourant.setPositionCourante(newC);
-        vue.etatAvancement(jCourant);
+        vue.etatAvancement(jCourant);                                                                                           //Affiche le carreau sur lequel est le jCourant
     }
 
     public int calculPosition(int numC, int valDes) {
-        return numC + valDes;
+        return numC + valDes;                                                                                                   //Calcul la position en fonction de la position du joueur et de la valeur des dés 
     }
 
     public void actionPropriete(Joueur j, int resultde, Propriete p) {
-        if (p.getProprietaire() == null) {
+        if (p.getProprietaire() == null) {                                                                                      //Si la propriete n'as pas de proprietaire
             int cash = j.getCash();
             int loyer = p.getPrixAchat();
-            if (cash > loyer) {
+            if (cash > loyer) {                                                                                                 //Si le joueur as assez d'argent
                 vue.ProposerAchat(p, j);
             }
             else {
@@ -258,6 +260,11 @@ public class Controleur implements Observer {
 
     public void addJoueurDeathNote(Joueur j) {
         getDeathNote().add(j);
+    }
+    
+     public void ventePropriete(Joueur j) {
+       for(Propriete p : j.getProprietes())
+           p.setProprietaire(null);
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -350,5 +357,7 @@ public class Controleur implements Observer {
     public void setDeathNote(ArrayList<Joueur> deathNote) {
         this.deathNote = deathNote;
     }
+
+   
 
 }

@@ -175,6 +175,22 @@ public class Ihm extends Observable {
     }
 
 
+    public void mort(Joueur jCourant) {
+        System.out.println("\n\n\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
+        System.out.println("Joueur " + jCourant.getNom() + " a perdu !");
+        System.out.println("\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
+        System.exit(0);
+    }
+    
+    public void etatAvancement(Joueur jCourant) {
+        System.out.println("Le joueur avance sur : " + jCourant.getPositionCourante().getNom());
+    }
+
+
+
+    public void Fauche(Joueur j) {
+        System.out.println(j.getNom() + " n'a pas assez d'argent ! Achat impossible");
+    }
     //////////////////////////////////////////////////////////
     //////////////////////////////////ADDOBSERVER/////////////
     //////////////////////////////////////////////////////////
@@ -201,15 +217,8 @@ public class Ihm extends Observable {
         this.nomJoueur = nomJoueur;
     }
 
-    public void etatAvancement(Joueur jCourant) {
-        System.out.println("Le joueur avance sur : " + jCourant.getPositionCourante().getNom());
-    }
 
-
-
-    public void Fauche(Joueur j) {
-        System.out.println(j.getNom() + " n'a pas assez d'argent ! Achat impossible");
-    }
+    
 
     
 

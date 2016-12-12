@@ -46,6 +46,12 @@ public class Propriete_A_Construire extends Propriete {
         j.addProprieteAConstruire(this);
    }
     
+   
+   
+   
+   
+   
+   
     public CouleurPropriete getCouleur() {
         return couleur;
     }
