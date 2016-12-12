@@ -16,7 +16,10 @@ public enum Validation {
     Lancer_Dés,
     AchatPropriete,
     NonAchatPropriete,
-    ErreurProp;
+    ErreurProp,
+    ListeJoueurs,
+    LancerPartie, 
+    Rejouer;
     
 }
 

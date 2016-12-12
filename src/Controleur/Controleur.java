@@ -30,43 +30,48 @@ public class Controleur implements Observer {
 
     public Controleur() {
         vue.addObserver(this);
-        DeroulementMonopoly();
+        CreerPlateau("src//Data//data.txt");
+        vue.CtrlMenu();
 
     }
 
     public void DeroulementMonopoly() {
 
-        //Creation du plateau et des joueurs
-        CreerPlateau("src//Data//data.txt");
-        System.out.println("Joueur");
-        creerJoueurs();
-
         //Lancement du tour de jeu
-        while (getJoueurs().size() >= 1) { // Tant qu'il y a au moins 2 Joueur dans la partie
+        while (getJoueurs().size() > 1) {                                                               // Tant qu'il y a au moins 2 Joueur dans la partie
             for (Joueur j : getJoueurs()) {
-                setjCourant(j); // Permet de determiner le joueur Courant
-                vue.afficherJoueur(getjCourant()); //Affiche les information du joueur Curant
-                vue.Jouer(j);//Lance les dés
-                avancer(j, getValDésTot());// Le joueur courant avances
+                setjCourant(j);                                                                         // Permet de déterminer le joueur Courant
+                vue.afficherJoueur(getjCourant());                                                      //Affiche les information du joueur Courant
+                vue.Jouer(j);                                                                           //Lance les dés
+                avancer(j, getValDésTot());                                                             // Le joueur courant avance
                 while (getValDés1() == getValDés2()) {
                     vue.Double();//Affichage double
                     vue.Jouer(j);//Rejoue
                     avancer(j, getValDésTot());
+                    
                 }
-//                System.out.println(getValDés1());       
-//                System.out.println(getValDés2());
-//                System.out.println(getValDésTot());
                 if (j.getPositionCourante().estProp()) { //Si c'est une propriete 
                     actionPropriete(j, getValDésTot(), (Propriete) j.getPositionCourante()); //Agit sur le loyer
                 }
                 if (getjCourant().estMort()) {
-                    removeJoueurVivant(j);      /*Probleme car si le joueur est supprimer
+                    addJoueurDeathNote(j);      //Ajoute le joueur a la liste des joueurs mort
+                    /*Probleme car si le joueur est supprimer
                                                 Erreur etant donner que l'on supprime 
                                                 un joueur de la collection que l'on parcours*/
-                    addJoueurDeathNote(j);      //Ajoute le joueur a la liste des joueurs mort
+
                 }
+
             }
+
+            for (Joueur j : getDeathNote()) {
+                removeJoueurVivant(j);
+            }
+
+            deathNote.clear();
         }
+
+        vue.FinPartie(getJoueurs().get(0).getNom());
+
     }
 
     @Override
@@ -87,12 +92,26 @@ public class Controleur implements Observer {
                 ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);
 
             }
-            if (arg == Validation.NonAchatPropriete) {
-
-            }
             if (arg == Validation.ErreurProp) {
                 vue.ProposerAchat((Propriete) jCourant.getPositionCourante(), getjCourant());
             }
+            if (arg == Validation.ListeJoueurs) {
+
+                if (getJoueurs().size() == 0) {
+                    creerJoueurs();
+                } else {
+                    vue.erreurListeJoueurs();
+                }
+
+            }
+            if (arg == Validation.LancerPartie) {
+                if (getJoueurs().size() != 0) {
+                    DeroulementMonopoly();
+                } else {
+                    vue.erreurLancement();
+                }
+            }
+
 
         } else {
             System.out.println("Erreur Validation Enumerer");
@@ -122,7 +141,6 @@ public class Controleur implements Observer {
 
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
-                    System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
                     putPlateau(i, p);// Ajout des Carreaux dans le plateau
                     Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
@@ -140,17 +158,14 @@ public class Controleur implements Observer {
 
                     //AJOUTER p AU PLATEAU;
                 } else if (caseType.compareTo("G") == 0) {
-                    System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
                     putPlateau(i, g);// Ajout des Carreaux dans le plateau
 
                 } else if (caseType.compareTo("C") == 0) {
-                    System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
                     putPlateau(i, c);// Ajout des Carreaux dans le plateau
 
                 } else if (caseType.compareTo("AU") == 0) {
-                    System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Carreau ca = new Carreau(i, String.valueOf(data.get(i)[2]));
                     putPlateau(i, ca); // Ajout des Carreaux dans le plateau
                 } else {
@@ -185,9 +200,6 @@ public class Controleur implements Observer {
             vue.nomJoueur();
             addJoueurs(new Joueur(this.getNomJoueur(), getCarreauCourant(0)));
         }
-        for (Joueur j : joueurs) {
-            System.out.println(j.getNom());
-        }
     }
 
     ////////////////////////////////////////////////////////////////////////
@@ -199,6 +211,7 @@ public class Controleur implements Observer {
         int newNumC = calculPosition(numC, getValDésTot());
         Carreau newC = getCarreauCourant(newNumC % 40);//Permet de faire des tours de plateau
         jCourant.setPositionCourante(newC);
+        vue.etatAvancement(jCourant);
     }
 
     public int calculPosition(int numC, int valDes) {
@@ -211,6 +224,9 @@ public class Controleur implements Observer {
             int loyer = p.getPrixAchat();
             if (cash > loyer) {
                 vue.ProposerAchat(p, j);
+            }
+            else {
+                vue.Fauche(j);
             }
         } else if (j != p.getProprietaire()) {
             int loyer = p.calculLoyer(valDés1, groupes);
