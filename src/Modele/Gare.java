@@ -23,7 +23,7 @@ public class Gare extends Propriete {
     }
 
     @Override
-    public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {
+    public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {                                              //Calcul le loyer en fonction du nombre de gares que le joueur possede
         return this.getPrixLoyer() * this.getProprietaire().getGares().size();
     }
     @Override

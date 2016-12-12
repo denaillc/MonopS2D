@@ -19,7 +19,12 @@ public enum Validation {
     ErreurProp,
     ListeJoueurs,
     LancerPartie, 
-    Rejouer;
+    Rejouer,
+    
+    ////DEMO///
+    Demo, 
+    Lancer_Dés_Demo,
+    Valeur_Dés_Demo;
     
 }
 

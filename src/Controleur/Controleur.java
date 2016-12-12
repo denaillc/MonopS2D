@@ -116,7 +116,21 @@ public class Controleur implements Observer {
                     vue.erreurLancement();
                 }
             }
-
+            
+            //////////////DEMO////////////////
+            if (arg == Validation.Demo){
+                if (getJoueurs().size() == 3) {                                                                                 // Si la liste de joueurs est bien créée,
+                    demoMonopoly();                                                                                      // On peut lancer la partie
+                } else {                                                                                                        // Sinon on renvoie l'erreur (lancement)
+                    vue.erreurDemo();
+                }
+            }
+            if(arg == Validation.Lancer_Dés_Demo){
+                vue.valeursDés();
+                setValDés1(vue.getValDés1());
+                setValDés2(vue.getValDés2());
+                setValDésTot(vue.getValDés1()+vue.getValDés2());
+            }
 
         } else {
             System.out.println("Erreur Validation Enumerer");                                                                   //Gestion d'erreur si modification du code et probleme d'enumeration
@@ -357,6 +371,63 @@ public class Controleur implements Observer {
     public void setDeathNote(ArrayList<Joueur> deathNote) {
         this.deathNote = deathNote;
     }
+
+    private void demoMonopoly() {
+         int i = 0;
+        
+         getJoueurs().get(0).setCash(150000000);
+         getJoueurs().get(1).setCash(150000000);
+         getJoueurs().get(2).setCash(150000000);
+         
+         
+        while (getJoueurs().size() > 1) {                                                                                       // Tant qu'il y a au moins 2 Joueur dans la partie
+            i++;
+            for (Joueur j : getJoueurs()) {                                                                                     // Pour chaque joueur encore en jeu
+                setjCourant(j);                                                                                                 // Permet de déterminer le joueur Courant
+                vue.afficherJoueur(getjCourant(), i);                                                                           // Affiche les information du joueur Courant
+                vue.jouerDemo(getjCourant());                                                                                      // Lance les dés
+                avancer(j, getValDésTot());                                                                                     // Le joueur courant avance
+                if (j.getPositionCourante().estProp()) {                                                                        // Si c'est une propriete 
+                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) j.getPositionCourante());                        // Agit sur le loyer
+                }
+                while (getValDés1() == getValDés2()) {
+                    vue.Double();                                                                                               // Affichage double
+                    vue.jouerDemo(getjCourant());                                                                                   // Rejoue
+                    avancer(getjCourant(), getValDésTot());
+                    
+                    if (j.getPositionCourante().estProp()) {                                                                     //Si c'est une propriete 
+                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) getjCourant().getPositionCourante());             //Agit sur le loyer
+                }
+                    
+                }
+                  if(i == 8){
+                    getJoueurs().get(2).setCash(-150000000);
+                   
+                }
+                if(i == 9){
+                    getJoueurs().get(0).setCash(-150000000);
+                   
+                }
+                
+                if (getjCourant().estMort()) {                                                                                  // Si le joueur est en faillite
+                    addJoueurDeathNote(getjCourant());                                                                          //Ajoute le joueur a la liste des joueurs morts
+                    ventePropriete(getjCourant());                                                                              //Reinitialise tous les proprietaires des proprietes possédées par le jCourant
+                    vue.mort(getjCourant());                                                                                    //affiche le joueur mort
+                }
+                
+              
+            }
+
+            for (Joueur j : getDeathNote()) {                                                                                   
+                removeJoueurVivant(getjCourant());                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
+            }
+
+            deathNote.clear();                                                                                                  // Une fois la liste de joueurs exclus appliquée, on vide la liste pour les tours suivants
+        }
+
+        vue.FinPartie(getJoueurs().get(0).getNom());                                                                            // Fin de partie, le joueur à l'indice 0 est vainqueur
+
+    } 
 
    
 

@@ -16,6 +16,8 @@ public class Ihm extends Observable {
 
     private int nbJoueurs = 0;
     private String nomJoueur;
+    private int valDés1;
+    private int valDés2;
 
     ///////////////////////////////////////////////////////////////////////////////
     //////////////////////////////AFFICHAGE////////////////////////////////////////
@@ -32,6 +34,7 @@ public class Ihm extends Observable {
 			System.out.println("      * 1- Ajouter les joueurs                         *");
 			System.out.println("      * 2- Lancer la partie                            *");
 			System.out.println("      * 3- Quitter                                     *");
+                        System.out.println("      * 9- Version Démo                                    *");
 			System.out.println("*****************************************************************");
 			System.out.print("      Votre Choix : ");
 			
@@ -50,6 +53,11 @@ public class Ihm extends Observable {
 				case "3": {
                                             System.exit(0);
                                         break;}
+                                case "9" :{
+                                    setChanged();
+                                    notifyObservers(Validation.Demo);
+                                    clearChanged();
+                                    break;}
                                 case "0":
                                         return;
 				default:
@@ -94,6 +102,8 @@ public class Ihm extends Observable {
         notifyObservers(Validation.Lancer_Dés);
         clearChanged();
     }
+    
+    
 
     public void Double() {
         System.out.println("\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
@@ -191,6 +201,48 @@ public class Ihm extends Observable {
     public void Fauche(Joueur j) {
         System.out.println(j.getNom() + " n'a pas assez d'argent ! Achat impossible");
     }
+    
+    
+    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////DEMO/////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    
+    
+    public void erreurDemo() {
+        System.out.println("Erreur : Il faut 3 joueur ");
+        CtrlMenu();
+         }
+    
+    public void jouerDemo(Joueur jCourant){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("A votre tour Joueur " + jCourant.getNom() + " ! (Appuyer sur Entree)");
+        sc.nextLine();
+
+        setChanged();
+        notifyObservers(Validation.Lancer_Dés_Demo);
+        clearChanged();
+    }
+    
+    public void valeursDés(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrez la valeur du dés 1 !");
+        try {
+                setValDés1( sc.nextInt());
+            } catch (InputMismatchException e) {
+                System.err.println("Entrer un nombre !!!!");
+            }
+        
+        System.out.println("Entrez la valeur du dés 2 !");
+        try {
+                setValDés2( sc.nextInt());
+            } catch (InputMismatchException e) {
+                System.err.println("Entrer un nombre !!!!");
+            }
+        
+        setChanged();
+        notifyObservers(Validation.Valeur_Dés_Demo);
+        clearChanged();
+    }
     //////////////////////////////////////////////////////////
     //////////////////////////////////ADDOBSERVER/////////////
     //////////////////////////////////////////////////////////
@@ -216,6 +268,25 @@ public class Ihm extends Observable {
     public void setNomJoueur(String nomJoueur) {
         this.nomJoueur = nomJoueur;
     }
+    
+    //Demo/////
+
+    public int getValDés1() {
+        return valDés1;
+    }
+
+    public void setValDés1(int valDés1) {
+        this.valDés1 = valDés1;
+    }
+
+    public int getValDés2() {
+        return valDés2;
+    }
+
+    public void setValDés2(int valDés2) {
+        this.valDés2 = valDés2;
+    }
+    
 
 
     

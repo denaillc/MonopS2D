@@ -41,10 +41,14 @@ public abstract class Propriete extends Carreau {
     public abstract int calculLoyer(int valDes, HashMap<CouleurPropriete, Groupe> groupes);
 
     @Override
-    public boolean estProp() {
+    public boolean estProp() {                                                                                                  //Redéfinition de la methode de carreau qui permet de renseigenr si il s'agit d'une propriete
         return true;
     }
-
+    
+    
+    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////GETTEUR&SETTEUR////////////////////
+    //////////////////////////////////////////////////////////////////////
     public void setProprietaire(Joueur jCourant) {
         this.proprietaire = jCourant;
     }
