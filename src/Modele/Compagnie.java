@@ -19,19 +19,6 @@ public class Compagnie extends Propriete {
         super(numero, nom, 4, prix);
     }
     
-    /*
-    @Override
-    public int calculLoyer(int valDes, int nbCompagnies) {
-        int r = 0;
-        if (nbCompagnies == 1) {
-            r = valDes * 4;
-        }
-        else if (nbCompagnies == 2) {
-            r = valDes * 10;
-        }
-        return r;
-    }*/
-    
     
     @Override
     public int calculLoyer(int valDes, HashMap<CouleurPropriete,Groupe> groupes) {

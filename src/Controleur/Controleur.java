@@ -242,15 +242,15 @@ public class Controleur implements Observer {
         }
     }
 
-    public boolean assezArgent(Joueur j, Propriete p) {
+    public boolean assezArgent(Joueur j, Propriete p) {                                                                         //Controle d'argent du joueur                            
         return ((j.getCash() - p.getPrixAchat()) <= 0);
     }
 
-    public void putPlateau(int i, Carreau c) {
+    public void putPlateau(int i, Carreau c) {                                                                                  //Permet de créer la HashMap plateau avec les carreau prelever dans le fichier data
         plateau.put(i, c);
     }
 
-    public void addJoueurs(Joueur e) {
+    public void addJoueurs(Joueur e) {                                                                                          //Permet 'ajouter les joueurs créer a la collection
         getJoueurs().add(e);
     }
 
@@ -262,7 +262,7 @@ public class Controleur implements Observer {
         getDeathNote().add(j);
     }
     
-     public void ventePropriete(Joueur j) {
+     public void ventePropriete(Joueur j) {                                                                                     //Permet de reinitialiser les propriete quand le joueur est en faillite
        for(Propriete p : j.getProprietes())
            p.setProprietaire(null);
     }
