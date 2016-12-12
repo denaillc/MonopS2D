@@ -36,12 +36,14 @@ public class Controleur implements Observer {
     }
 
     public void DeroulementMonopoly() {
-
+        
+        int i = 0;
         //Lancement du tour de jeu
         while (getJoueurs().size() > 1) {                                                               // Tant qu'il y a au moins 2 Joueur dans la partie
+            i++;
             for (Joueur j : getJoueurs()) {
                 setjCourant(j);                                                                         // Permet de déterminer le joueur Courant
-                vue.afficherJoueur(getjCourant());                                                      //Affiche les information du joueur Courant
+                vue.afficherJoueur(getjCourant(), i);                                                   //Affiche les information du joueur Courant
                 vue.Jouer(j);                                                                           //Lance les dés
                 avancer(j, getValDésTot());                                                             // Le joueur courant avance
                 while (getValDés1() == getValDés2()) {

@@ -137,8 +137,8 @@ public class Ihm extends Observable {
         System.out.println("Bienvenue chez toi " + j.getNom());
     }
 
-    public void afficherJoueur(Joueur j) {
-        System.out.println("------------------Tour--------------------");
+    public void afficherJoueur(Joueur j, int k) {
+        System.out.println("\n------------------Tour n°" + k + "----------------");
         System.out.println("------------------------------------------");
 
         System.out.println("Joueur: " + j.getNom());
