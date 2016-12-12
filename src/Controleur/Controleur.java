@@ -119,7 +119,7 @@ public class Controleur implements Observer {
 
 
         } else {
-            System.out.println("Erreur Validation Enumerer");                                                                   //Gestion d'erreur si modification du code et probleme d'enumeration
+            System.out.println("Erreur Validation Enumerer");                                                                   // Gestion d'erreur si modification du code et probleme d'enumeration
             System.exit(0);                                                                                                     // Fin du programme
         }
     }
@@ -131,7 +131,7 @@ public class Controleur implements Observer {
     ////////////////////////////////////////////////////////////////
     //////////////////////CREATION//////////////////////////////////
     ////////////////////////////////////////////////////////////////
-                                                                                                                                //Creation plateau
+                                                                                                                                // Création plateau
     public void CreerPlateau(String dataFilename) {
         buildGamePlateau(dataFilename);
     }
@@ -139,48 +139,50 @@ public class Controleur implements Observer {
     private void buildGamePlateau(String dataFilename) {
 
         try {
-            ArrayList<String[]> data = readDataFile(dataFilename, ",");
+            ArrayList<String[]> data = readDataFile(dataFilename, ",");                                                         // Lecture du fichier, découpé en données selon les virgules
 
-            for (int i = 0; i < data.size(); ++i) {
+            for (int i = 0; i < data.size(); ++i) {                                                                             // Pour chaque ligne
 
-                String caseType = data.get(i)[0];
-                if (caseType.compareTo("P") == 0) {
-                    Propriete_A_Construire p = new Propriete_A_Construire(i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));
+                String caseType = data.get(i)[0];                                                                               // On stocke dans caseType le type de la case, premier argument de la ligne
+                if (caseType.compareTo("P") == 0) {                                                                             // Si c'est une propriété
+                    Propriete_A_Construire p = new Propriete_A_Construire(
+                            i, data.get(i)[2], Integer.valueOf(data.get(i)[5]), 
+                            Integer.valueOf(data.get(i)[4]), (data.get(i)[3]));                                                 // On crée l'objet
                     putPlateau(i, p);                                                                                           // Ajout des Carreaux dans le plateau
-                    Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));
+                    Groupe g = new Groupe(CouleurPropriete.valueOf(data.get(i)[3]));                                            // On crée le groupe de la couleur associée
 
-                    if (!(groupes.keySet().contains(g.getCouleur()))) {
-                        groupes.put(g.getCouleur(), g);
-                        g.addPropriete(p);
+                    if (!(groupes.keySet().contains(g.getCouleur()))) {                                                         // Si ce groupe n'existe pas encore dans la liste des groupes de couleur
+                        groupes.put(g.getCouleur(), g);                                                                         // On l'ajoute à cette liste "groupes"
+                        g.addPropriete(p);                                                                                      // Et on y met la propriété
                     } else {
-                        for (Groupe gr : groupes.values()) {
-                            if (gr.getCouleur() == g.getCouleur()) {
-                                gr.addPropriete(p);
+                        for (Groupe gr : groupes.values()) {                                                                    // Sinon, pour chaque groupe de la liste des groupes de couleur,
+                            if (gr.getCouleur() == g.getCouleur()) {                                                            // Si il s'agit du groupe de la même couleur que la propriété actuelle
+                                gr.addPropriete(p);                                                                             // On ajoute la propriété à ce groupe
                             }
                         }
                     }
 
                     
-                } else if (caseType.compareTo("G") == 0) {
-                    Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putPlateau(i, g);                                                                                           // Ajout des Carreaux dans le plateau
+                } else if (caseType.compareTo("G") == 0) {                                                                      // Si il s'agit d'une gare
+                    Gare g = new Gare(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));                                      // On crée l'objet Gare
+                    putPlateau(i, g);                                                                                           // Et on l'ajoute au plateau
 
-                } else if (caseType.compareTo("C") == 0) {
-                    Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));
-                    putPlateau(i, c);                                                                                           // Ajout des Carreaux dans le plateau
+                } else if (caseType.compareTo("C") == 0) {                                                                      // Si il s'agit d'une Compagnie
+                    Compagnie c = new Compagnie(i, data.get(i)[2], Integer.valueOf(data.get(i)[3]));                            // On crée l'objet Compagnie
+                    putPlateau(i, c);                                                                                           // Et on l'ajoute au plateau
 
-                } else if (caseType.compareTo("AU") == 0) {
-                    Carreau ca = new Carreau(i, String.valueOf(data.get(i)[2]));
-                    putPlateau(i, ca);                                                                                          // Ajout des Carreaux dans le plateau
+                } else if (caseType.compareTo("AU") == 0) {                                                                     // Si il s'agit d'une autre case quelconque (prison, départ...)
+                    Carreau ca = new Carreau(i, String.valueOf(data.get(i)[2]));                                                // On crée l'objet Carreau
+                    putPlateau(i, ca);                                                                                          // Et on l'ajoute au plateau
                 } else {
-                    System.err.println("[buildGamePlateau()] : Invalid Data type");
+                    System.err.println("[buildGamePlateau()] : Invalid Data type");                                             // Erreur dans le fichier lu : aucun type valide reconnu
                 }
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("[buildGamePlateau()] : File is not found!");
+            System.err.println("[buildGamePlateau()] : File is not found!");                                                    // Erreur : fichier à lire non trouvé
         } catch (IOException e) {
-            System.err.println("[buildGamePlateau()] : Error while reading file!");
+            System.err.println("[buildGamePlateau()] : Error while reading file!");                                             // Erreur dans le fichier lu : lecture impossible
         }
     }
 
