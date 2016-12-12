@@ -41,17 +41,17 @@ public class Controleur implements Observer {
         //Lancement du tour de jeu
         while (getJoueurs().size() > 1) {                                                                                       // Tant qu'il y a au moins 2 Joueur dans la partie
             i++;
-            for (Joueur j : getJoueurs()) {
+            for (Joueur j : getJoueurs()) {                                                                                     // Pour chaque joueur encore en jeu
                 setjCourant(j);                                                                                                 // Permet de déterminer le joueur Courant
-                vue.afficherJoueur(getjCourant(), i);                                                                           //Affiche les information du joueur Courant
-                vue.Jouer(getjCourant());                                                                                       //Lance les dés
+                vue.afficherJoueur(getjCourant(), i);                                                                           // Affiche les information du joueur Courant
+                vue.Jouer(getjCourant());                                                                                       // Lance les dés
                 avancer(j, getValDésTot());                                                                                     // Le joueur courant avance
-                if (j.getPositionCourante().estProp()) {                                                                        //Si c'est une propriete 
-                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) j.getPositionCourante());                        //Agit sur le loyer
+                if (j.getPositionCourante().estProp()) {                                                                        // Si c'est une propriete 
+                    actionPropriete(getjCourant(), getValDésTot(), (Propriete) j.getPositionCourante());                        // Agit sur le loyer
                 }
                 while (getValDés1() == getValDés2()) {
-                    vue.Double();                                                                                               //Affichage double
-                    vue.Jouer(getjCourant());                                                                                   //Rejoue
+                    vue.Double();                                                                                               // Affichage double
+                    vue.Jouer(getjCourant());                                                                                   // Rejoue
                     avancer(getjCourant(), getValDésTot());
                     
                     if (j.getPositionCourante().estProp()) {                                                                     //Si c'est une propriete 
@@ -60,9 +60,9 @@ public class Controleur implements Observer {
                     
                 }
                 
-                if (getjCourant().estMort()) {
-                    addJoueurDeathNote(getjCourant());                                                                          //Ajoute le joueur a la liste des joueurs mort
-                    ventePropriete(getjCourant());                                                                              //Reinitilialise tous les proprietaires des proprietes posséder par le jCourant
+                if (getjCourant().estMort()) {                                                                                  // Si le joueur est en faillite
+                    addJoueurDeathNote(getjCourant());                                                                          //Ajoute le joueur a la liste des joueurs morts
+                    ventePropriete(getjCourant());                                                                              //Reinitialise tous les proprietaires des proprietes possédées par le jCourant
                     vue.mort(getjCourant());                                                                                    //affiche le joueur mort
                 }
 
@@ -72,47 +72,47 @@ public class Controleur implements Observer {
                 removeJoueurVivant(getjCourant());                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
             }
 
-            deathNote.clear();                                                                                                  //Supprime la deathNote
+            deathNote.clear();                                                                                                  // Une fois la liste de joueurs exclus appliquée, on vide la liste pour les tours suivants
         }
 
-        vue.FinPartie(getJoueurs().get(0).getNom());                                                                            //Affiche le joueur Vainqueur
+        vue.FinPartie(getJoueurs().get(0).getNom());                                                                            // Fin de partie, le joueur à l'indice 0 est vainqueur
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Validation) {
-            if (arg == Validation.ValiderNombreJoueur) {
-                setNbJoueur(vue.getNbJoueurs());                                                                                
+            if (arg == Validation.ValiderNombreJoueur) {                                                                        // Cas : Entrée du nombre de joueurs
+                setNbJoueur(vue.getNbJoueurs());                                                                                // On initialise le nombre de joueurs avec celui fourni par la vue
             }
-            if (arg == Validation.ValiderNomJoueur) {
-                setNomJoueur(vue.getNomJoueur());
+            if (arg == Validation.ValiderNomJoueur) {                                                                           // Cas : Entrée du nom d'un joueur
+                setNomJoueur(vue.getNomJoueur());                                                                               // On entre le nom d'un joueur à partir du celui fourni par la vue
             }
-            if (arg == Validation.Lancer_Dés) {
-                setValDés1(Utilitaire.De3());
-                setValDés2(Utilitaire.De3());
-                setValDésTot(getValDés1() + getValDés2());
+            if (arg == Validation.Lancer_Dés) {                                                                                 // Cas : Lancer de dés
+                setValDés1(Utilitaire.De3());                                                                                   // On roll le premier dé
+                setValDés2(Utilitaire.De3());                                                                                   // puis le second dé
+                setValDésTot(getValDés1() + getValDés2());                                                                      // On additionne le total à partir de ces deux lancers
             }
-            if (arg == Validation.AchatPropriete) {
-                ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);
+            if (arg == Validation.AchatPropriete) {                                                                             // Cas : Achat d'une propriété
+                ((Propriete) getjCourant().getPositionCourante()).acheterPropriete(jCourant);                                   // La propriété où le joueur jCourant est achetée et lui appartient désormais
 
             }
-            if (arg == Validation.ErreurProp) {
-                vue.ProposerAchat((Propriete) jCourant.getPositionCourante(), getjCourant());
+            if (arg == Validation.ErreurProp) {                                                                                 // Cas : Erreur propriété, quand le joueur entre autre chose que "oui" ou "non"
+                vue.ProposerAchat((Propriete) jCourant.getPositionCourante(), getjCourant());                                   // On rappelle la fonction ProposerAchat tant qu'il ne répondra pas "oui" ou "non"
             }
-            if (arg == Validation.ListeJoueurs) {
+            if (arg == Validation.ListeJoueurs) {                                                                               // Cas : Création de la liste de joueurs
 
-                if (getJoueurs().size() == 0) {                                                                                 //Si la liste est vide on creer les Joueur sinon on refuse la création
-                    creerJoueurs();
-                } else {
+                if (getJoueurs().size() == 0) {                                                                                 // Si la liste n'est pas encore faite,
+                    creerJoueurs();                                                                                             // On la crée
+                } else {                                                                                                        // Sinon on renvoie l'erreur (liste déjà créée)
                     vue.erreurListeJoueurs();
                 }
 
             }
-            if (arg == Validation.LancerPartie) {
-                if (getJoueurs().size() != 0) {                                                                                 //Si la liste de joueur est vide on refuse le lancement de la partie
-                    DeroulementMonopoly();
-                } else {
+            if (arg == Validation.LancerPartie) {                                                                               // Cas : Lancement de la partie
+                if (getJoueurs().size() != 0) {                                                                                 // Si la liste de joueurs est bien créée,
+                    DeroulementMonopoly();                                                                                      // On peut lancer la partie
+                } else {                                                                                                        // Sinon on renvoie l'erreur (lancement)
                     vue.erreurLancement();
                 }
             }
@@ -120,7 +120,7 @@ public class Controleur implements Observer {
 
         } else {
             System.out.println("Erreur Validation Enumerer");                                                                   //Gestion d'erreur si modification du code et probleme d'enumeration
-            System.exit(0);
+            System.exit(0);                                                                                                     // Fin du programme
         }
     }
 
@@ -219,14 +219,14 @@ public class Controleur implements Observer {
     }
 
     public int calculPosition(int numC, int valDes) {
-        return numC + valDes;                                                                                                   //Calcul la position en fonction de la position du joueur et de la valeur des dés 
+        return numC + valDes;                                                                                                   //Calcule la position en fonction de la position du joueur et de la valeur des dés 
     }
 
     public void actionPropriete(Joueur j, int resultde, Propriete p) {
-        if (p.getProprietaire() == null) {                                                                                      //Si la propriete n'as pas de proprietaire
+        if (p.getProprietaire() == null) {                                                                                      //Si la propriete n'a pas de proprietaire
             int cash = j.getCash();
             int loyer = p.getPrixAchat();
-            if (cash > loyer) {                                                                                                 //Si le joueur as assez d'argent
+            if (cash > loyer) {                                                                                                 //Si le joueur a assez d'argent
                 vue.ProposerAchat(p, j);
             }
             else {
