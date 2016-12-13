@@ -69,7 +69,7 @@ public class Controleur implements Observer {
             }
 
             for (Joueur j : getDeathNote()) {                                                                                   
-                removeJoueurVivant(getjCourant());                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
+                removeJoueurVivant(j);                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
             }
 
             deathNote.clear();                                                                                                  // Une fois la liste de joueurs exclus appliquée, on vide la liste pour les tours suivants
