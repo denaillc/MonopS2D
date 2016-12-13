@@ -120,7 +120,7 @@ public class Controleur implements Observer {
             //////////////DEMO////////////////
             if (arg == Validation.Demo){
                 if (getJoueurs().size() == 3) {                                                                                 // Si la liste de joueurs est bien créée,
-                    demoMonopoly();                                                                                      // On peut lancer la partie
+                    demoMonopoly();                                                                                             // On peut lancer la partie
                 } else {                                                                                                        // Sinon on renvoie l'erreur (lancement)
                     vue.erreurDemo();
                 }

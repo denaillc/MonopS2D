@@ -189,7 +189,6 @@ public class Ihm extends Observable {
         System.out.println("\n\n\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
         System.out.println("Joueur " + jCourant.getNom() + " a perdu !");
         System.out.println("\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//");
-        System.exit(0);
     }
     
     public void etatAvancement(Joueur jCourant) {
