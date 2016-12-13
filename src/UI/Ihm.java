@@ -34,7 +34,7 @@ public class Ihm extends Observable {
 			System.out.println("      * 1- Ajouter les joueurs                         *");
 			System.out.println("      * 2- Lancer la partie                            *");
 			System.out.println("      * 3- Quitter                                     *");
-                        System.out.println("      * 9- Version Démo                                    *");
+                        System.out.println("      * 9- Version Démo                                *");
 			System.out.println("*****************************************************************");
 			System.out.print("      Votre Choix : ");
 			

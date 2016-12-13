@@ -249,7 +249,7 @@ public class Controleur implements Observer {
                 vue.Fauche(j);
             }
         } else if (j != p.getProprietaire()) {
-            int loyer = p.calculLoyer(valDés1, groupes);
+            int loyer = p.calculLoyer(getValDésTot(), groupes);
             j.payerLoyer(loyer);
             p.getProprietaire().recevoirLoyer(loyer);
             vue.payer(j, p, loyer);
@@ -421,7 +421,7 @@ public class Controleur implements Observer {
             }
 
             for (Joueur j : getDeathNote()) {                                                                                   
-                removeJoueurVivant(getjCourant());                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
+                removeJoueurVivant(j);                                                                              //Supprime tous les joueurs de la collection Joueurs contenu dans la collection DeathNote
             }
 
             deathNote.clear();                                                                                                  // Une fois la liste de joueurs exclus appliquée, on vide la liste pour les tours suivants
