@@ -26,13 +26,13 @@ public class Propriete_A_Construire extends Propriete {
         
         int nb = 0;
         
-        for (Groupe gr : groupes.values()) {
-            if (this.getCouleur() == gr.getCouleur()) {
-                nb = gr.getProprietes().size();
+        for (Groupe gr : groupes.values()) {                                                                                    //Pour chaque valeur dans la Map groupes
+            if (this.getCouleur() == gr.getCouleur()) {                                                                         //Si la couleur correspond
+                nb = gr.getProprietes().size();                                                                                 //On compte le nombre de couleur
             }
         }
                 
-        if (this.getProprietaire().getNbProprieteCouleur(couleur) == nb) {
+        if (this.getProprietaire().getNbProprieteCouleur(couleur) == nb) {                                                      //Si on possede tous les loyers de la meme couleurs
             return this.getPrixLoyer() * 2;
         }
         else return this.getPrixLoyer();
